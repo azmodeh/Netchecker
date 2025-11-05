@@ -1,11 +1,11 @@
 'use server';
 
-import { genkit } from 'genkit';
+import { genkit, defineFlow, configureGenkit } from 'genkit';
 import { googleAI } from '@genkit-ai/google-genai';
 import { z } from 'zod';
-import type { IpInfo, DnsRecord, CheckNodeResult, AIAnalysis } from '@/lib/types';
+import type { CheckResult } from '@/lib/types';
 
-const ai = genkit({
+configureGenkit({
   plugins: [googleAI()],
   enableTracingAndMetrics: true,
 });
@@ -19,7 +19,6 @@ const AnalysisInputSchema = z.object({
     org: z.string(),
     proxy: z.boolean().optional(),
     hosting: z.boolean().optional(),
-    mobile: z.boolean().optional(),
   }),
   dnsRecords: z.array(z.object({
     type: z.string(),
@@ -35,13 +34,13 @@ const AnalysisInputSchema = z.object({
   })),
 });
 
-export const analysisFlow = ai.defineFlow(
+export const analysisFlow = defineFlow(
   {
     name: 'analysisFlow',
     inputSchema: AnalysisInputSchema,
     outputSchema: z.object({ summary: z.string() }),
   },
-  async (input) => {
+  async (input: CheckResult) => {
     const { ipInfo, dnsRecords, checkNodeResults } = input;
 
     const prompt = `
@@ -69,11 +68,11 @@ export const analysisFlow = ai.defineFlow(
       - Summarize the overall health and reachability of the target.
     `;
 
-    const llmResponse = await ai.generate({
+    const llmResponse = await genkit.generate({
       model: 'gemini-1.5-flash-latest',
       prompt: prompt,
     });
 
-    return { summary: llmResponse.text };
+    return { summary: llmResponse.text() };
   }
 );

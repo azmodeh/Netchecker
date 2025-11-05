@@ -1,9 +1,8 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles } from 'lucide-react';
 import type { AIAnalysis } from "@/lib/types";
 
-export default function AIAnalysisCard({ analysis }: { analysis: AIAnalysis }) {
+export default function AIAnalysisCard({ analysis }: { analysis?: AIAnalysis }) {
   if (!analysis || !analysis.summary) {
     return null;
   }

@@ -6,8 +6,6 @@ import { appConfig } from '@/lib/config';
 import type { CheckResult, DnsRecord, IpInfo, CheckNodeResult, FormState } from '@/lib/types';
 
 async function getIpInfo(ip: string): Promise<IpInfo> {
-  // In a real app, this would call an API like ipinfo.io
-  await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
   if (ip === '127.0.0.1' || ip === '::1') {
       return {
           ip,
@@ -17,6 +15,8 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
           countryCode: 'N/A',
           org: 'Your Computer',
           loc: '0,0',
+          lat: 0,
+          lon: 0,
           proxy: false,
           hosting: false,
           mobile: false,
@@ -24,7 +24,7 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
   }
 
   try {
-    const response = await fetch(`http://localhost:9002/api/ip-info/${ip}`);
+    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,countryCode,regionName,city,lat,lon,isp,org,as,mobile,proxy,hosting,query`);
     
     if (!response.ok) {
         const errorText = await response.text();
@@ -51,24 +51,19 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
       };
     }
 
-    // Handle ip-api.com specific errors
     if (data.status === 'fail') {
       console.error('ip-api.com error:', data.message);
       throw new Error(data.message || 'Failed to get IP info due to a failure from the provider.');
     }
 
-    // Fallback for any other unexpected response structure
     throw new Error('Received an unexpected response from IP info service.');
 
   } catch (e: any) {
     console.error("Error in getIpInfo:", e);
-    // Re-throw a more specific error if available, otherwise a generic one
     throw new Error(e.message || 'Failed to fetch IP information due to a network or server error.');
   }
 }
 
-
-// Mock CheckHost service
 async function runCheckHost(ip: string): Promise<CheckNodeResult[]> {
     await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 500));
     const results: CheckNodeResult[] = [];
@@ -84,12 +79,10 @@ async function runCheckHost(ip: string): Promise<CheckNodeResult[]> {
     return results;
 }
 
-// Main server action
 export async function performGlobalCheck(prevState: FormState, formData: FormData): Promise<FormState> {
     const domain = formData.get('domain') as string;
 
     if (!domain) {
-        // Return a state that indicates nothing should be shown, not even an error.
         return { timestamp: Date.now() };
     }
 
