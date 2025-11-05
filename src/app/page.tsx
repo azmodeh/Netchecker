@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { performGlobalCheck } from '@/lib/actions';
 import type { FormState } from '@/lib/types';
 
@@ -13,7 +13,7 @@ import { LogoIcon } from '@/components/icons';
 const initialState: FormState = {};
 
 export default function Home() {
-  const [state, formAction] = useFormState(performGlobalCheck, initialState);
+  const [state, formAction] = useActionState(performGlobalCheck, initialState);
 
   return (
     <>
