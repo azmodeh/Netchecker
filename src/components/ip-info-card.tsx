@@ -12,12 +12,12 @@ type InfoRowProps = {
 }
 
 const InfoRow: React.FC<InfoRowProps> = ({ icon, label, value }) => (
-    <div className="info-card flex flex-col p-4 bg-card/80 border-primary/20 rounded-xl">
-        <div className="text-sm text-muted-foreground mb-1.5 flex items-center gap-2">
-            <span className="text-accent">{icon}</span>
+    <div className="flex flex-col p-4 bg-card/80 border border-primary/10 rounded-xl transition-colors hover:bg-card">
+        <div className="text-sm text-muted-foreground mb-1 flex items-center gap-2">
+            {icon}
             {label}
         </div>
-        <div className="text-lg font-bold font-display text-foreground">{value || 'N/A'}</div>
+        <div className="text-lg font-semibold font-display text-foreground break-all">{value || 'N/A'}</div>
     </div>
 );
 
@@ -28,7 +28,7 @@ type StatusRowProps = {
 }
 
 const StatusRow: React.FC<StatusRowProps> = ({ icon, label, value }) => (
-  <div className="flex items-center gap-3 p-3 bg-card/80 border-primary/20 rounded-xl">
+  <div className="flex items-center gap-3 p-3 bg-card/80 border border-primary/10 rounded-xl transition-colors hover:bg-card">
     <span className={value ? "text-primary" : "text-muted-foreground"}>{icon}</span>
     <span className={`font-medium ${value ? "text-foreground" : "text-muted-foreground"}`}>{label}</span>
     <span className={`ml-auto font-bold text-sm px-2 py-0.5 rounded-full ${value ? 'bg-primary/20 text-primary' : 'bg-muted/50 text-muted-foreground'}`}>
@@ -38,26 +38,26 @@ const StatusRow: React.FC<StatusRowProps> = ({ icon, label, value }) => (
 );
 
 export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: DnsRecord[] }) {
-  const flagUrl = ipInfo.countryCode ? `https://flagcdn.com/w20/${ipInfo.countryCode.toLowerCase()}.png` : '';
+  const flagUrl = ipInfo.countryCode ? `https://flagcdn.com/w40/${ipInfo.countryCode.toLowerCase()}.png` : '';
 
   return (
     <Card className="liquid-glass h-full">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-display">
+        <CardTitle className="flex items-center gap-3 font-display">
           <Globe className="text-primary" />
           IP & DNS Information
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <InfoRow icon={<Server className="w-4 h-4 text-accent" />} label="IP Address" value={ipInfo.ip} />
           <InfoRow 
             icon={<MapPin className="w-4 h-4 text-accent" />} 
             label="Location" 
             value={
               <span className="flex items-center gap-2">
-                {flagUrl && <Image src={flagUrl} alt={`${ipInfo.country} flag`} width={20} height={15} className="rounded-sm" />}
-                {ipInfo.city}, {ipInfo.country}
+                {flagUrl && <Image src={flagUrl} alt={`${ipInfo.country} flag`} width={24} height={18} className="rounded-sm" />}
+                <span>{ipInfo.city}, {ipInfo.country}</span>
               </span>
             } 
           />
@@ -67,15 +67,15 @@ export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: 
         {dnsRecords.length > 0 && (
           <>
             <Separator className="my-4 bg-primary/20" />
-            <div className="space-y-3">
-              <h4 className="flex items-center gap-3 text-sm font-medium text-foreground">
-                <Dna className="w-4 h-4 text-accent" />
+            <div>
+              <h4 className="flex items-center gap-3 font-semibold text-foreground mb-3">
+                <Dna className="w-5 h-5 text-accent" />
                 DNS Records
               </h4>
-              <div className="pl-7 space-y-2">
+              <div className="pl-2 space-y-2">
                 {dnsRecords.map(record => (
                   <div key={`${record.type}-${record.value}`} className="flex items-center gap-2 text-sm">
-                    <span className="font-mono text-xs text-primary bg-primary/10 px-1.5 py-0.5 rounded-sm">{record.type}</span>
+                    <span className="font-mono text-xs text-primary bg-primary/10 px-2 py-1 rounded-md">{record.type}</span>
                     <span className="font-mono text-muted-foreground break-all">{record.value}</span>
                   </div>
                 ))}
@@ -92,15 +92,15 @@ export function NetworkStatusCard({ ipInfo }: { ipInfo: IpInfo }) {
     return (
         <Card className="liquid-glass">
             <CardHeader>
-            <CardTitle className="flex items-center gap-2 font-display text-primary">
+            <CardTitle className="flex items-center gap-3 font-display text-primary">
                 <Shield />
                 Network Status
             </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <StatusRow icon={<Wifi className="w-5 h-5"/>} label="Hosting" value={ipInfo.hosting} />
-                <StatusRow icon={<Shield className="w-5 h-5"/>} label="Proxy" value={ipInfo.proxy} />
-                <StatusRow icon={<Smartphone className="w-5 h-5"/>} label="Mobile" value={ipInfo.mobile} />
+            <CardContent className="grid grid-cols-1 gap-3">
+                <StatusRow icon={<Wifi className="w-5 h-5"/>} label="Hosting Provider" value={ipInfo.hosting} />
+                <StatusRow icon={<Shield className="w-5 h-5"/>} label="Proxy/VPN" value={ipInfo.proxy} />
+                <StatusRow icon={<Smartphone className="w-5 h-5"/>} label="Mobile Network" value={ipInfo.mobile} />
             </CardContent>
         </Card>
     );

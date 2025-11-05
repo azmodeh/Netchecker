@@ -25,20 +25,18 @@ export default function Home() {
               Global NetCheck Vista
             </h1>
           </div>
-          <p className="max-w-2xl mx-auto text-xl text-muted-foreground">
-            Network Intelligence Platform
-          </p>
+           <p className="max-w-2xl mx-auto text-xl text-muted-foreground">
+              An AI-powered network intelligence platform for global performance analysis.
+            </p>
         </header>
 
-        <section className="max-w-4xl mx-auto mb-10 liquid-glass p-10">
-          <div className="liquid-gradient p-8 mb-8">
-            <div className="relative z-[1]">
-              <label className="block mb-3 font-semibold text-foreground">
-                IP Address or Domain
+        <section className="max-w-4xl mx-auto mb-10 liquid-glass p-8">
+          <div className="relative z-[1]">
+              <label htmlFor="domain-input" className="block mb-3 font-semibold text-foreground text-lg">
+                Check IP or Domain
               </label>
               <LookupForm formAction={formAction} />
             </div>
-          </div>
 
           <section key={state.timestamp}>
             <ResultsDisplay state={state} />
