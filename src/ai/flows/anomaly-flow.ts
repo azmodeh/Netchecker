@@ -52,18 +52,21 @@ const anomalyDetectionPrompt = ai.definePrompt({
   output: { schema: AnomalySummarySchema },
   prompt: `
     You are a senior network engineer AI assistant.
-    Analyze the provided network check results to identify potential anomalies.
-    The entire input object is available for your analysis.
-    
-    Your task is to determine if there's a significant anomaly.
-    An anomaly could be:
-    - High latency (>200ms) from a majority of nodes.
-    - A high percentage (>30%) of failing check nodes.
-    - DNS resolution issues (though the presence of records implies it resolved).
-    - Significant geographic disparity in performance (e.g., excellent in NA, terrible in AP).
-    
+    Analyze the provided network check results JSON object to identify potential anomalies.
+
+    Your task is to determine if there's a significant anomaly based on the following criteria:
+    - High latency: More than 50% of check nodes have a latency greater than 200ms.
+    - High failure rate: More than 30% of check nodes have a status of 'error'.
+    - Significant geographic disparity: Latency from one continent is consistently 3x higher than others.
+
+    Analyze the input data:
+    - The IP being checked is {{{ip}}}.
+    - It is located in {{{ipInfo.city}}}, {{{ipInfo.country}}}.
+    - The check node results are in the \`checkNodeResults\` array.
+
     Based on your analysis, provide a summary and a recommendation.
-    If everything looks normal, state that clearly.
+    If everything looks normal, state that clearly and set isAnomaly to false.
+    If an anomaly is found, set isAnomaly to true, summarize the issue, and provide a concrete recommendation.
   `,
 });
 
