@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { IpInfo, DnsRecord } from "@/lib/types";
 import { Globe, Server, Dna, MapPin, Building, Wifi, Smartphone, Shield } from 'lucide-react';
+import Image from 'next/image';
 
 type InfoRowProps = {
   icon: React.ReactNode;
@@ -36,16 +37,9 @@ const StatusRow: React.FC<StatusRowProps> = ({ icon, label, value }) => (
   </div>
 );
 
-function getFlagEmoji(countryCode: string) {
-  if(!countryCode || countryCode.length !== 2) return null;
-  const codePoints = countryCode
-    .toUpperCase()
-    .split('')
-    .map(char => 127397 + char.charCodeAt(0));
-  return String.fromCodePoint(...codePoints);
-}
-
 export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: DnsRecord[] }) {
+  const flagUrl = ipInfo.countryCode ? `https://flagcdn.com/w20/${ipInfo.countryCode.toLowerCase()}.png` : '';
+
   return (
     <Card className="liquid-glass h-full">
       <CardHeader>
@@ -62,7 +56,8 @@ export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: 
             label="Location" 
             value={
               <span className="flex items-center gap-2">
-                {getFlagEmoji(ipInfo.countryCode)} {ipInfo.city}, {ipInfo.country}
+                {flagUrl && <Image src={flagUrl} alt={`${ipInfo.country} flag`} width={20} height={15} className="rounded-sm" />}
+                {ipInfo.city}, {ipInfo.country}
               </span>
             } 
           />
