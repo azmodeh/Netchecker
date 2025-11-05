@@ -29,7 +29,7 @@ type Props = {
   markers: MapMarker[];
 };
 
-const MAPBOX_TOKEN = "pk.eyJ1IjoiZmlyZWJhc2Utc3R1ZGlvIiwiYSI6ImNseGo1Zzh3cjEyZ2Uyam9pZzV5cGQ2MGMifQ.S1V5cAnO6i2rGs3O3G9O4A";
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
 export default function MapDisplay({ markers }: Props) {
   const [isMounted, setIsMounted] = useState(false);
@@ -37,7 +37,6 @@ export default function MapDisplay({ markers }: Props) {
 
   const initialViewState: Partial<ViewState> = useMemo(() => {
     if (markers.length > 0) {
-      // Find the target marker to center the map on it
       const targetMarker = markers.find(m => m.label.startsWith('Target:'));
       if (targetMarker) {
         return {
@@ -67,8 +66,8 @@ export default function MapDisplay({ markers }: Props) {
        <Alert variant="destructive" className="w-full h-full flex items-center justify-center">
         <div>
           <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>Map Error</AlertTitle>
-          <AlertDescription>Mapbox token is not configured.</AlertDescription>
+          <AlertTitle>Map Configuration Error</AlertTitle>
+          <AlertDescription>Mapbox token is not configured. Please add NEXT_PUBLIC_MAPBOX_TOKEN to your environment variables.</AlertDescription>
         </div>
       </Alert>
     );
@@ -76,7 +75,7 @@ export default function MapDisplay({ markers }: Props) {
 
   return (
     <Map
-      key={JSON.stringify(markers)} // Force re-render when markers change
+      key={JSON.stringify(markers)}
       initialViewState={initialViewState}
       style={{ width: '100%', height: '100%'}}
       mapStyle="mapbox://styles/mapbox/dark-v11"
