@@ -20,8 +20,12 @@ export type IpInfo = {
   city: string;
   region: string;
   country: string;
+  countryCode: string;
   org: string;
   loc: string; // "lat,lon"
+  proxy?: boolean;
+  hosting?: boolean;
+  mobile?: boolean;
 };
 
 export type CheckNodeResult = {

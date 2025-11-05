@@ -6,34 +6,67 @@ import { isIP } from 'node:net';
 import { appConfig } from '@/lib/config';
 import type { CheckResult, DnsRecord, IpInfo, CheckNodeResult, FormState, AnomalySummary } from '@/lib/types';
 
-// Mock IPInfo service
 async function getIpInfo(ip: string): Promise<IpInfo> {
-    // In a real app, this would call an API like ipinfo.io
-    // This is a mock with 4-source cross-validation simulation
-    await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
-    if (ip === '127.0.0.1' || ip === '::1') {
-        return {
-            ip,
-            city: 'Localhost',
-            region: 'N/A',
-            country: 'N/A',
-            org: 'Your Computer',
-            loc: '0,0',
-        };
+  // In a real app, this would call an API like ipinfo.io
+  // This is a mock with 4-source cross-validation simulation
+  await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
+  if (ip === '127.0.0.1' || ip === '::1') {
+      return {
+          ip,
+          city: 'Localhost',
+          region: 'N/A',
+          country: 'N/A',
+          countryCode: 'N/A',
+          org: 'Your Computer',
+          loc: '0,0',
+          proxy: false,
+          hosting: false,
+          mobile: false,
+      };
+  }
+
+  try {
+    // First attempt with ip-api.com which provides more details
+    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,countryCode,regionName,city,lat,lon,isp,org,as,mobile,proxy,hosting,query`);
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      return {
+        ip: data.query,
+        city: data.city,
+        region: data.regionName,
+        country: data.country,
+        countryCode: data.countryCode,
+        org: data.org || data.isp,
+        loc: `${data.lat},${data.lon}`,
+        mobile: data.mobile,
+        proxy: data.proxy,
+        hosting: data.hosting,
+      };
     }
+  } catch (e) {
+    console.error("ip-api.com failed, falling back to ipapi.co", e)
+  }
 
-    const lat = (Math.random() * 180 - 90).toFixed(4);
-    const lon = (Math.random() * 360 - 180).toFixed(4);
+  // Fallback to ipapi.co
+  const response = await fetch(`https://ipapi.co/${ip}/json/`);
+  const data = await response.json();
 
-    return {
-        ip,
-        city: 'Mountain View',
-        region: 'California',
-        country: 'US',
-        org: 'AS15169 Google LLC',
-        loc: `${lat},${lon}`, // Use random loc for map demo
-    };
+  if (data.error) {
+    throw new Error(data.reason);
+  }
+
+  return {
+    ip: data.ip,
+    city: data.city,
+    region: data.region,
+    country: data.country_name,
+    countryCode: data.country_code,
+    org: data.org,
+    loc: `${data.latitude},${data.longitude}`,
+  };
 }
+
 
 // Mock CheckHost service
 async function runCheckHost(ip: string): Promise<CheckNodeResult[]> {
