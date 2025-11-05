@@ -14,31 +14,35 @@ import { useMemo } from 'react';
 export default function ResultsDisplay({ state }: { state: FormState }) {
   const { result, error } = state;
 
-  const mapMarkers = useMemo(() => {
+    const mapMarkers = useMemo(() => {
     if (!result) return [];
     
+    const markers = [];
+
+    // Add marker for the target IP
     const targetLocString = result.ipInfo.loc;
-    // Ensure we have a valid, non-empty string with a comma before splitting
-    if (!targetLocString || !targetLocString.includes(',')) {
-      return [];
+    if (targetLocString && targetLocString.includes(',')) {
+      const targetCoords = targetLocString.split(',').map(parseFloat);
+      if (targetCoords.length === 2 && !isNaN(targetCoords[0]) && !isNaN(targetCoords[1])) {
+        const [latitude, longitude] = targetCoords;
+        markers.push({
+            longitude: longitude,
+            latitude: latitude,
+            color: 'hsl(var(--primary))',
+            label: `Target: ${result.ipInfo.ip}`,
+        });
+      }
     }
     
-    const targetCoords = targetLocString.split(',').map(parseFloat);
-    // Ensure both latitude and longitude are valid numbers
-    if (targetCoords.length !== 2 || isNaN(targetCoords[0]) || isNaN(targetCoords[1])) {
-      return [];
-    }
-
-    const [latitude, longitude] = targetCoords;
-
-    const markers = [
-      {
-        longitude: longitude,
-        latitude: latitude,
-        color: 'hsl(var(--primary))',
-        label: `Target: ${result.ipInfo.ip}`,
-      },
-    ];
+    // Add markers for check nodes
+    result.checkNodeResults.forEach(nodeResult => {
+      markers.push({
+        longitude: nodeResult.nodeInfo.lon,
+        latitude: nodeResult.nodeInfo.lat,
+        color: 'hsl(var(--accent))',
+        label: `${nodeResult.nodeInfo.name} (${nodeResult.latency}ms)`,
+      });
+    });
 
     return markers;
   }, [result]);
