@@ -8,11 +8,9 @@ import CheckResultsList from './check-results-list';
 import MapDisplay from './map-display';
 import LatencyChart from './latency-chart';
 import { Skeleton } from '@/components/ui/skeleton';
-import AIAnalysisCard from './ai-analysis-card';
 
 const LoadingSkeleton = () => (
     <div className="space-y-8 animate-pulse mt-8">
-      <Skeleton className="h-[160px] w-full rounded-2xl" />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="lg:col-span-2 h-[400px] md:h-[500px]">
            <Skeleton className="w-full h-full rounded-2xl" />
@@ -59,8 +57,9 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
       </Alert>
     );
   }
-
-  if (!result && !error && state.timestamp) { // Loading state
+  
+  // Show loading skeleton only on initial load when there are no results yet.
+  if (!result && state.timestamp) { 
     return <LoadingSkeleton />;
   }
   
@@ -83,7 +82,6 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
 
   return (
     <div className="space-y-8 animate-in fade-in-0 zoom-in-95 duration-500 mt-8">
-      {result.aiAnalysis && <AIAnalysisCard analysis={result.aiAnalysis} />}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="lg:col-span-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-primary/20 glass-card p-0">
           <MapDisplay markers={mapMarkers} />
