@@ -120,29 +120,16 @@ export async function performGlobalCheck(prevState: FormState, formData: FormDat
             runCheckHost(targetIp)
         ]);
         
-        const successfulResults = checkNodeResults.filter(r => r.status === 'success');
-        const averageLatency = successfulResults.length > 0
-            ? Math.round(successfulResults.reduce((acc, r) => acc + r.latency, 0) / successfulResults.length)
-            : 0;
-
-        const anomalySummary: AnomalySummary = await detectNetworkAnomaly({
-            ipInfo: {
-                org: ipInfo.org,
-                country: ipInfo.country
-            },
-            totalCheckNodes: checkNodeResults.length,
-            successfulChecks: successfulResults.length,
-            failedChecks: checkNodeResults.length - successfulResults.length,
-            averageLatency: averageLatency
-        });
-        
-        const result: CheckResult = {
+        let result: CheckResult = {
             ip: targetIp,
             dnsRecords,
             ipInfo,
             checkNodeResults,
-            anomalySummary,
         };
+
+        const anomalySummary = await detectNetworkAnomaly(result);
+        
+        result = { ...result, anomalySummary };
 
         return { result, timestamp: Date.now() };
 
