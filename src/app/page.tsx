@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useActionState } from 'react';
@@ -20,6 +19,7 @@ export default function Home() {
       <main className="container mx-auto px-4 py-10 relative z-10 min-h-screen">
         <header className="text-center mb-12">
           <div className="inline-flex items-center gap-4 mb-4">
+             <LogoIcon className="w-12 h-12 text-primary" />
              <h1 className="text-5xl font-bold font-display bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Global NetCheck Vista
             </h1>

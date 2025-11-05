@@ -108,3 +108,14 @@
     transform: translate(10%, 10%) rotate(180deg); 
   }
 }
+
+.animated-footer {
+  background: linear-gradient(90deg, 
+    hsl(var(--background)), 
+    hsl(var(--primary) / 0.1), 
+    hsl(var(--background))
+  );
+  background-size: 200% 200%;
+  animation: footer-gradient 4s ease-in-out infinite;
+}
+
