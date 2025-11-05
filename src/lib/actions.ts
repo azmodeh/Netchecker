@@ -1,11 +1,9 @@
-
 'use server';
 
 import { promises as dns } from 'node:dns';
 import { isIP } from 'node:net';
 import { appConfig } from '@/lib/config';
-import type { CheckResult, DnsRecord, IpInfo, CheckNodeResult, FormState, AnomalySummary } from '@/lib/types';
-import { detectNetworkAnomaly } from '@/ai/flows/anomaly-flow';
+import type { CheckResult, DnsRecord, IpInfo, CheckNodeResult, FormState } from '@/lib/types';
 
 async function getIpInfo(ip: string): Promise<IpInfo> {
   // In a real app, this would call an API like ipinfo.io
@@ -120,16 +118,12 @@ export async function performGlobalCheck(prevState: FormState, formData: FormDat
             runCheckHost(targetIp)
         ]);
         
-        let result: CheckResult = {
+        const result: CheckResult = {
             ip: targetIp,
             dnsRecords,
             ipInfo,
             checkNodeResults,
         };
-
-        const anomalySummary = await detectNetworkAnomaly(result);
-        
-        result = { ...result, anomalySummary };
 
         return { result, timestamp: Date.now() };
 

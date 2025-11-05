@@ -1,4 +1,3 @@
-
 'use client';
 
 import type { FormState } from '@/lib/types';
@@ -7,7 +6,6 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { IpDnsCard, NetworkStatusCard } from './ip-info-card';
 import CheckResultsList from './check-results-list';
 import MapDisplay from './map-display';
-import AnomalyCard from './anomaly-card';
 import LatencyChart from './latency-chart';
 
 export default function ResultsDisplay({ state }: { state: FormState }) {
@@ -79,11 +77,6 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
       <div className="lg:col-span-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-primary/20 liquid-glass">
         <MapDisplay markers={mapMarkers} />
       </div>
-      {result.anomalySummary && (
-        <div className="lg:col-span-2">
-          <AnomalyCard summary={result.anomalySummary} />
-        </div>
-      )}
       <div className="space-y-8">
         <IpDnsCard ipInfo={result.ipInfo} dnsRecords={result.dnsRecords} />
         <NetworkStatusCard ipInfo={result.ipInfo} />
