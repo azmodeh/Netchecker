@@ -1,4 +1,3 @@
-
 'use client';
 
 import type { FormState } from '@/lib/types';
@@ -8,6 +7,7 @@ import IpInfoCard from './ip-info-card';
 import CheckResultsList from './check-results-list';
 import MapDisplay from './map-display';
 import AnomalyCard from './anomaly-card';
+import LatencyChart from './latency-chart';
 import { useMemo } from 'react';
 
 export default function ResultsDisplay({ state }: { state: FormState }) {
