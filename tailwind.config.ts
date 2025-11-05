@@ -1,4 +1,3 @@
-
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -90,19 +89,21 @@ export default {
           },
         },
         'move-gradient': {
-          '0%, 100%': { transform: 'translate(0, 0)' },
-          '50%': { transform: 'translate(-25%, -25%) rotate(6deg)' },
+          '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+          '25%': { transform: 'translate(-10%, 10%) rotate(-3deg)' },
+          '50%': { transform: 'translate(-20%, -10%) rotate(0deg)' },
+          '75%': { transform: 'translate(-10%, 10%) rotate(3deg)' },
         },
         'sparkle': {
-          '0%, 100%': { transform: 'scale(0) translateY(0)', opacity: '0' },
-          '20%': { opacity: '1' },
-          '80%': { transform: 'scale(1.5) translateY(-20px)', opacity: '0.5' },
+          '0%': { transform: 'scale(0) translateY(0%)', opacity: '0' },
+          '20%': { transform: 'scale(1) translateY(-20%)', opacity: '1' },
+          '100%': { transform: 'scale(1.5) translateY(-150%)', opacity: '0' },
         }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'move-gradient': 'move-gradient 25s ease-in-out infinite',
+        'move-gradient': 'move-gradient 30s ease-in-out infinite',
         'sparkle': 'sparkle linear infinite'
       },
     },
