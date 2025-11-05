@@ -4,8 +4,7 @@
 import { promises as dns } from 'node:dns';
 import { isIP } from 'node:net';
 import { appConfig } from '@/lib/config';
-import type { CheckResult, DnsRecord, IpInfo, CheckNodeResult, FormState } from '@/lib/types';
-import { detectNetworkAnomaly } from '@/ai/flows/anomaly-flow';
+import type { CheckResult, DnsRecord, IpInfo, CheckNodeResult, FormState, AnomalySummary } from '@/lib/types';
 
 // Mock IPInfo service
 async function getIpInfo(ip: string): Promise<IpInfo> {
@@ -52,6 +51,42 @@ async function runCheckHost(ip: string): Promise<CheckNodeResult[]> {
     return results;
 }
 
+
+function detectNetworkAnomaly(checkNodeResults: CheckNodeResult[]): AnomalySummary {
+    const totalNodes = checkNodeResults.length;
+    if (totalNodes === 0) {
+        return { isAnomaly: false, summary: "No node data available to analyze.", recommendation: "" };
+    }
+
+    const highLatencyNodes = checkNodeResults.filter(r => r.latency > 200).length;
+    const errorNodes = checkNodeResults.filter(r => r.status === 'error').length;
+
+    const highLatencyPercentage = (highLatencyNodes / totalNodes) * 100;
+    const errorPercentage = (errorNodes / totalNodes) * 100;
+
+    if (errorPercentage > 30) {
+        return {
+            isAnomaly: true,
+            summary: `High failure rate detected: ${errorPercentage.toFixed(0)}% of nodes are reporting errors.`,
+            recommendation: "Investigate server logs and firewall settings for the affected nodes to identify the cause of connection failures."
+        };
+    }
+
+    if (highLatencyPercentage > 50) {
+        return {
+            isAnomaly: true,
+            summary: `High latency detected: ${highLatencyPercentage.toFixed(0)}% of nodes have a latency over 200ms.`,
+            recommendation: "Check for network congestion or server load issues. Consider using a CDN to improve global performance."
+        };
+    }
+
+    return {
+        isAnomaly: false,
+        summary: "Network performance appears to be stable and within normal parameters.",
+        recommendation: ""
+    };
+}
+
 // Main server action
 export async function performGlobalCheck(prevState: FormState, formData: FormData): Promise<FormState> {
     const domain = formData.get('domain') as string;
@@ -87,12 +122,7 @@ export async function performGlobalCheck(prevState: FormState, formData: FormDat
             runCheckHost(targetIp)
         ]);
         
-        const anomalySummary = await detectNetworkAnomaly({
-            ip: targetIp,
-            dnsRecords,
-            ipInfo,
-            checkNodeResults,
-        });
+        const anomalySummary = detectNetworkAnomaly(checkNodeResults);
         
         const result: CheckResult = {
             ip: targetIp,
