@@ -46,13 +46,15 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
         mobile: data.mobile,
         proxy: data.proxy,
         hosting: data.hosting,
+        lat: data.lat,
+        lon: data.lon,
       };
     }
 
     // Handle ip-api.com specific errors
     if (data.status === 'fail') {
       console.error('ip-api.com error:', data.message);
-      throw new Error(`Failed to get IP info: ${data.message}`);
+      throw new Error(data.message || 'Failed to get IP info due to a failure from the provider.');
     }
 
     // Fallback for any other unexpected response structure
@@ -87,7 +89,8 @@ export async function performGlobalCheck(prevState: FormState, formData: FormDat
     const domain = formData.get('domain') as string;
 
     if (!domain) {
-        return { error: 'Please enter a domain or IP address.' };
+        // Return a state that indicates nothing should be shown, not even an error.
+        return { timestamp: Date.now() };
     }
 
     try {
@@ -116,7 +119,7 @@ export async function performGlobalCheck(prevState: FormState, formData: FormDat
             getIpInfo(targetIp),
             runCheckHost(targetIp)
         ]);
-        
+
         const result: CheckResult = {
             ip: targetIp,
             dnsRecords,

@@ -35,18 +35,13 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
     const markers = [];
     
     // Add marker for the target IP
-    const targetLocString = result.ipInfo.loc;
-    if (targetLocString && targetLocString.includes(',')) {
-      const targetCoords = targetLocString.split(',').map(parseFloat);
-      if (targetCoords.length === 2 && !isNaN(targetCoords[0]) && !isNaN(targetCoords[1])) {
-        const [latitude, longitude] = targetCoords;
+    if (result.ipInfo.lat && result.ipInfo.lon) {
         markers.push({
-            longitude: longitude,
-            latitude: latitude,
+            longitude: result.ipInfo.lon,
+            latitude: result.ipInfo.lat,
             color: 'hsl(var(--primary))',
             label: `Target: ${result.ipInfo.ip}`,
         });
-      }
     }
 
     // Add markers for check nodes

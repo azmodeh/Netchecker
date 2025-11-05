@@ -56,7 +56,7 @@ export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: 
             label="Location" 
             value={
               <span className="flex items-center gap-2">
-                {flagUrl && <Image src={flagUrl} alt={`${ipInfo.country} flag`} width={24} height={18} className="rounded-sm" />}
+                {flagUrl && ipInfo.countryCode !== 'N/A' && <Image src={flagUrl} alt={`${ipInfo.country} flag`} width={24} height={18} className="rounded-sm" />}
                 <span>{ipInfo.city}, {ipInfo.country}</span>
               </span>
             } 

@@ -23,6 +23,8 @@ export type IpInfo = {
   countryCode: string;
   org: string;
   loc: string; // "lat,lon"
+  lat?: number;
+  lon?: number;
   proxy?: boolean;
   hosting?: boolean;
   mobile?: boolean;
