@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function CheckResultsList({ results }: { results: CheckNodeResult[] }) {
   return (
-    <Card className="glass-card">
+    <Card className="glass-card h-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-display">
           <Wifi className="text-accent"/>
@@ -51,4 +51,3 @@ export default function CheckResultsList({ results }: { results: CheckNodeResult
     </Card>
   );
 }
-
