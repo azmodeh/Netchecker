@@ -35,17 +35,21 @@ export default function MapDisplay({ markers }: Props) {
 
   const initialViewState: Partial<ViewState> = useMemo(() => {
     if (markers.length > 0) {
-      return {
-        longitude: markers[0].longitude,
-        latitude: markers[0].latitude,
-        zoom: 4,
+      // Find the target marker to center the map on it
+      const targetMarker = markers.find(m => m.label.startsWith('Target:'));
+      if (targetMarker) {
+        return {
+          longitude: targetMarker.longitude,
+          latitude: targetMarker.latitude,
+          zoom: 4,
+        };
       }
     }
     return {
       longitude: -20,
       latitude: 30,
       zoom: 1.5,
-    }
+    };
   }, [markers]);
   
   useEffect(() => {
