@@ -33,7 +33,8 @@ const CheckResultSchema = z.object({
 });
 
 // A new schema for the prompt input, with stringified JSON fields
-const PromptInputSchema = CheckResultSchema.extend({
+const PromptInputSchema = z.object({
+  ip: z.string(),
   stringifiedIpInfo: z.string(),
   stringifiedDnsRecords: z.string(),
   stringifiedCheckNodeResults: z.string(),
@@ -85,12 +86,13 @@ const anomalyDetectionFlow = ai.defineFlow(
     outputSchema: AnomalySummarySchema,
   },
   async (input) => {
-    const { output } = await anomalyDetectionPrompt({
-      ...input,
+    const promptInput: z.infer<typeof PromptInputSchema> = {
+      ip: input.ip,
       stringifiedIpInfo: JSON.stringify(input.ipInfo),
       stringifiedDnsRecords: JSON.stringify(input.dnsRecords),
       stringifiedCheckNodeResults: JSON.stringify(input.checkNodeResults),
-    });
+    };
+    const { output } = await anomalyDetectionPrompt(promptInput);
     return output!;
   }
 );
