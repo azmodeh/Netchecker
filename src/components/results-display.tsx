@@ -18,27 +18,38 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
     if (!result) return [];
     
     const targetLocString = result.ipInfo.loc;
+    // Ensure we have a valid, non-empty string with a comma before splitting
     if (!targetLocString || !targetLocString.includes(',')) {
       return [];
     }
     
-    const targetLoc = targetLocString.split(',').map(parseFloat);
+    const targetCoords = targetLocString.split(',').map(parseFloat);
+    // Ensure both latitude and longitude are valid numbers
+    if (targetCoords.length !== 2 || isNaN(targetCoords[0]) || isNaN(targetCoords[1])) {
+      return [];
+    }
+
+    const [latitude, longitude] = targetCoords;
+
     const markers = [
       {
-        longitude: targetLoc[1],
-        latitude: targetLoc[0],
+        longitude: longitude,
+        latitude: latitude,
         color: 'hsl(var(--primary))',
         label: `Target: ${result.ipInfo.ip}`,
       },
     ];
 
     result.checkNodeResults.forEach(nodeRes => {
-      markers.push({
-        longitude: nodeRes.nodeInfo.lon,
-        latitude: nodeRes.nodeInfo.lat,
-        color: nodeRes.status === 'success' ? 'hsl(var(--accent))' : 'hsl(var(--destructive))',
-        label: nodeRes.nodeInfo.name,
-      });
+      // Ensure node info and coordinates are valid before adding
+      if (nodeRes.nodeInfo && typeof nodeRes.nodeInfo.lat === 'number' && typeof nodeRes.nodeInfo.lon === 'number') {
+        markers.push({
+          longitude: nodeRes.nodeInfo.lon,
+          latitude: nodeRes.nodeInfo.lat,
+          color: nodeRes.status === 'success' ? 'hsl(var(--accent))' : 'hsl(var(--destructive))',
+          label: nodeRes.nodeInfo.name,
+        });
+      }
     });
     return markers;
   }, [result]);
