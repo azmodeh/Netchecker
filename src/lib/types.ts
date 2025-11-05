@@ -2,6 +2,7 @@ export type NodeInfo = {
   name: string;
   lat: number;
   lon: number;
+  countryCode: string;
 };
 
 export type AppConfig = {

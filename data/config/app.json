@@ -11,14 +11,14 @@
     "ir6.node.check-host.net"
   ],
   "nodes": {
-    "us.east.nyc": { "name": "New York, USA", "lat": 40.7128, "lon": -74.0060 },
-    "eu.central.fra": { "name": "Frankfurt, Germany", "lat": 50.1109, "lon": 8.6821 },
-    "ap.northeast.tokyo": { "name": "Tokyo, Japan", "lat": 35.6895, "lon": 139.6917 },
-    "us.west.sfo": { "name": "San Francisco, USA", "lat": 37.7749, "lon": -122.4194 },
-    "sa.east.sao": { "name": "São Paulo, Brazil", "lat": -23.5505, "lon": -46.6333 },
-    "au.southeast.syd": { "name": "Sydney, Australia", "lat": -33.8688, "lon": 151.2093 },
-    "ir1.node.check-host.net": { "name": "Tehran, Iran", "lat": 35.6892, "lon": 51.3890 },
-    "ir2.node.check-host.net": { "name": "Isfahan, Iran", "lat": 32.6546, "lon": 51.6679 },
-    "ir6.node.check-host.net": { "name": "Shiraz, Iran", "lat": 29.5918, "lon": 52.5841 }
+    "us.east.nyc": { "name": "New York, USA", "lat": 40.7128, "lon": -74.0060, "countryCode": "us" },
+    "eu.central.fra": { "name": "Frankfurt, Germany", "lat": 50.1109, "lon": 8.6821, "countryCode": "de" },
+    "ap.northeast.tokyo": { "name": "Tokyo, Japan", "lat": 35.6895, "lon": 139.6917, "countryCode": "jp" },
+    "us.west.sfo": { "name": "San Francisco, USA", "lat": 37.7749, "lon": -122.4194, "countryCode": "us" },
+    "sa.east.sao": { "name": "São Paulo, Brazil", "lat": -23.5505, "lon": -46.6333, "countryCode": "br" },
+    "au.southeast.syd": { "name": "Sydney, Australia", "lat": -33.8688, "lon": 151.2093, "countryCode": "au" },
+    "ir1.node.check-host.net": { "name": "Tehran, Iran", "lat": 35.6892, "lon": 51.3890, "countryCode": "ir" },
+    "ir2.node.check-host.net": { "name": "Isfahan, Iran", "lat": 32.6546, "lon": 51.6679, "countryCode": "ir" },
+    "ir6.node.check-host.net": { "name": "Shiraz, Iran", "lat": 29.5918, "lon": 52.5841, "countryCode": "ir" }
   }
 }
