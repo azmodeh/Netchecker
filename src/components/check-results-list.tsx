@@ -18,7 +18,7 @@ export default function CheckResultsList({ results }: { results: CheckNodeResult
             <li key={result.node} className="flex items-center justify-between p-3 bg-card/50 rounded-lg transition-colors hover:bg-card/80">
               <div className="flex items-center gap-3">
                 {result.status === 'success' ? (
-                  <CheckCircle2 className="w-6 h-6 text-accent" />
+                  <CheckCircle2 className="w-6 h-6 text-primary" />
                 ) : (
                   <XCircle className="w-6 h-6 text-destructive" />
                 )}
