@@ -29,6 +29,8 @@ type Props = {
   markers: MapMarker[];
 };
 
+const MAPBOX_TOKEN = "pk.eyJ1IjoiZmlyZWJhc2Utc3R1ZGlvIiwiYSI6ImNseGo1Zzh3cjEyZ2Uyam9pZzV5cGQ2MGMifQ.S1V5cAnO6i2rGs3O3G9O4A";
+
 export default function MapDisplay({ markers }: Props) {
   const [isMounted, setIsMounted] = useState(false);
   const [popupInfo, setPopupInfo] = useState<MapMarker | null>(null);
@@ -60,8 +62,7 @@ export default function MapDisplay({ markers }: Props) {
     return <Skeleton className="w-full h-full rounded-lg" />;
   }
   
-  const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-  if (!mapboxToken) {
+  if (!MAPBOX_TOKEN) {
     return (
        <Alert variant="destructive" className="w-full h-full flex items-center justify-center">
         <div>
@@ -79,7 +80,7 @@ export default function MapDisplay({ markers }: Props) {
       initialViewState={initialViewState}
       style={{ width: '100%', height: '100%'}}
       mapStyle="mapbox://styles/mapbox/dark-v11"
-      mapboxAccessToken={mapboxToken}
+      mapboxAccessToken={MAPBOX_TOKEN}
       scrollZoom={false}
     >
       {markers.map((marker, index) => (
