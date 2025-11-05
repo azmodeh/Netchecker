@@ -7,6 +7,26 @@ import { IpDnsCard, NetworkStatusCard } from './ip-info-card';
 import CheckResultsList from './check-results-list';
 import MapDisplay from './map-display';
 import LatencyChart from './latency-chart';
+import { Skeleton } from '@/components/ui/skeleton';
+
+const LoadingSkeleton = () => (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-pulse mt-8">
+      <div className="lg:col-span-2 h-[400px] md:h-[500px]">
+         <Skeleton className="w-full h-full" />
+      </div>
+       <div className="space-y-8">
+        <Skeleton className="h-[300px] w-full" />
+        <Skeleton className="h-[200px] w-full" />
+      </div>
+       <div className="space-y-8">
+        <Skeleton className="h-[524px] w-full" />
+       </div>
+       <div className="lg:col-span-2">
+         <Skeleton className="h-[360px] w-full" />
+      </div>
+    </div>
+);
+
 
 export default function ResultsDisplay({ state }: { state: FormState }) {
   const { result, error } = state;
@@ -55,13 +75,7 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
   }
 
   if (!result && !error && state.timestamp) { // Loading state
-    return (
-      <div className="flex flex-col items-center justify-center p-8 text-center text-muted-foreground mt-8">
-        <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4"></div>
-        <p className="text-lg">Running complete network analysis...</p>
-        <p className="text-sm">This may take a moment.</p>
-      </div>
-    );
+    return <LoadingSkeleton />;
   }
 
   if (!result) {
