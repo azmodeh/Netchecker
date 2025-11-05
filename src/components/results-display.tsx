@@ -40,17 +40,6 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
       },
     ];
 
-    result.checkNodeResults.forEach(nodeRes => {
-      // Ensure node info and coordinates are valid before adding
-      if (nodeRes.nodeInfo && typeof nodeRes.nodeInfo.lat === 'number' && typeof nodeRes.nodeInfo.lon === 'number') {
-        markers.push({
-          longitude: nodeRes.nodeInfo.lon,
-          latitude: nodeRes.nodeInfo.lat,
-          color: nodeRes.status === 'success' ? 'hsl(var(--accent))' : 'hsl(var(--destructive))',
-          label: nodeRes.nodeInfo.name,
-        });
-      }
-    });
     return markers;
   }, [result]);
 
