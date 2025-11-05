@@ -4,8 +4,19 @@ import { CheckCircle2, XCircle, Clock, Wifi } from 'lucide-react';
 import type { CheckNodeResult } from "@/lib/types";
 import Image from "next/image";
 
+const getLatencyColor = (latency: number, status: 'success' | 'error') => {
+  if (status === 'error') return 'text-destructive';
+  if (latency < 100) return 'text-green-400';
+  if (latency < 200) return 'text-yellow-400';
+  return 'text-destructive';
+};
+
 export default function CheckResultsList({ results }: { results: CheckNodeResult[] }) {
-  const sortedResults = [...results].sort((a, b) => a.latency - b.latency);
+  const sortedResults = [...results].sort((a, b) => {
+    if (a.status === 'error') return 1;
+    if (b.status === 'error') return -1;
+    return a.latency - b.latency;
+  });
 
   return (
     <Card className="glass-card h-full">
@@ -41,9 +52,9 @@ export default function CheckResultsList({ results }: { results: CheckNodeResult
                   ) : (
                     <XCircle className="w-6 h-6 text-destructive shrink-0" />
                   )}
-                <div className="flex items-center gap-2 text-sm text-muted-foreground font-mono w-[80px]">
+                <div className={`flex items-center gap-2 text-sm font-mono w-[80px] ${getLatencyColor(result.latency, result.status)}`}>
                   <Clock className="w-4 h-4" />
-                  <span>{result.latency}ms</span>
+                  <span>{result.status === 'success' ? `${result.latency}ms` : 'Failed'}</span>
                 </div>
               </div>
             </li>
