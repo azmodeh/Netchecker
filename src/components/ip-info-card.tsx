@@ -78,7 +78,7 @@ export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: 
             </div>
         </div>
 
-        {dnsRecords.length > 0 && (
+        {dnsRecords && dnsRecords.length > 0 && (
           <>
             <Separator className="my-4 bg-primary/20" />
             <div>
