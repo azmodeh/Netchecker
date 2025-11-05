@@ -32,6 +32,14 @@ const CheckResultSchema = z.object({
   })),
 });
 
+// A new schema for the prompt input, with stringified JSON fields
+const PromptInputSchema = CheckResultSchema.extend({
+  stringifiedIpInfo: z.string(),
+  stringifiedDnsRecords: z.string(),
+  stringifiedCheckNodeResults: z.string(),
+});
+
+
 // Define the Zod schema for the output
 const AnomalySummarySchema = z.object({
   isAnomaly: z.boolean().describe('Set to true if any significant anomaly is detected, otherwise false.'),
@@ -46,7 +54,7 @@ export async function detectNetworkAnomaly(input: CheckResult): Promise<AnomalyS
 
 const anomalyDetectionPrompt = ai.definePrompt({
   name: 'anomalyDetectionPrompt',
-  input: { schema: CheckResultSchema },
+  input: { schema: PromptInputSchema },
   output: { schema: AnomalySummarySchema },
   prompt: `
     You are a senior network engineer AI assistant.
@@ -54,9 +62,9 @@ const anomalyDetectionPrompt = ai.definePrompt({
     
     Data:
     - Target IP: {{{ip}}}
-    - IP Info: {{{JSON.stringify ipInfo}}}
-    - DNS Records: {{{JSON.stringify dnsRecords}}}
-    - Global Check Node Results: {{{JSON.stringify checkNodeResults}}}
+    - IP Info: {{{stringifiedIpInfo}}}
+    - DNS Records: {{{stringifiedDnsRecords}}}
+    - Global Check Node Results: {{{stringifiedCheckNodeResults}}}
     
     Your task is to determine if there's a significant anomaly.
     An anomaly could be:
@@ -78,9 +86,10 @@ const anomalyDetectionFlow = ai.defineFlow(
   },
   async (input) => {
     const { output } = await anomalyDetectionPrompt({
-        ...input,
-        // @ts-ignore
-        'JSON.stringify': JSON.stringify,
+      ...input,
+      stringifiedIpInfo: JSON.stringify(input.ipInfo),
+      stringifiedDnsRecords: JSON.stringify(input.dnsRecords),
+      stringifiedCheckNodeResults: JSON.stringify(input.checkNodeResults),
     });
     return output!;
   }
