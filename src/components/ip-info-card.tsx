@@ -11,17 +11,20 @@ type InfoRowProps = {
 }
 
 const InfoRow: React.FC<InfoRowProps> = ({ icon, label, value }) => (
-  <div className="info-card flex flex-col p-4 bg-card/80 border-primary/20 rounded-xl">
-    <div className="text-sm text-muted-foreground mb-1.5 flex items-center gap-2">{icon} {label}</div>
-    <div className="text-lg font-bold font-display text-primary">{value || 'N/A'}</div>
-  </div>
+    <div className="info-card flex flex-col p-4 bg-card/80 border-primary/20 rounded-xl">
+        <div className="text-sm text-muted-foreground mb-1.5 flex items-center gap-2">
+            <span className="text-accent">{icon}</span>
+            {label}
+        </div>
+        <div className="text-lg font-bold font-display text-foreground">{value || 'N/A'}</div>
+    </div>
 );
 
 export default function IpInfoCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: DnsRecord[] }) {
   return (
-    <Card className="glass-card h-full">
+    <Card className="liquid-glass h-full">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-display">
+        <CardTitle className="flex items-center gap-2 font-display text-primary">
           <Globe />
           IP & DNS Information
         </CardTitle>
@@ -38,7 +41,7 @@ export default function IpInfoCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dns
             <Separator className="my-4 bg-primary/20" />
             <div className="space-y-3">
               <h4 className="flex items-center gap-3 text-sm font-medium text-foreground">
-                <Dna className="w-4 h-4 text-muted-foreground" />
+                <Dna className="w-4 h-4 text-accent" />
                 DNS Records
               </h4>
               <div className="pl-7 space-y-2">
