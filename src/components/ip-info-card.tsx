@@ -37,7 +37,7 @@ const StatusRow: React.FC<StatusRowProps> = ({ icon, label, value }) => (
 );
 
 function getFlagEmoji(countryCode: string) {
-  if(!countryCode || countryCode.length !== 2) return '🌍';
+  if(!countryCode || countryCode.length !== 2) return null;
   const codePoints = countryCode
     .toUpperCase()
     .split('')
@@ -49,18 +49,25 @@ export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: 
   return (
     <Card className="liquid-glass h-full">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-display text-primary">
-          <Globe />
+        <CardTitle className="flex items-center gap-2 font-display">
+          <Globe className="text-primary" />
           IP & DNS Information
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <InfoRow icon={<Server className="w-4 h-4" />} label="IP Address" value={ipInfo.ip} />
-          <InfoRow icon={<MapPin className="w-4 h-4" />} label="Location" value={`${ipInfo.city}, ${ipInfo.country}`} />
+          <InfoRow icon={<Server className="w-4 h-4 text-accent" />} label="IP Address" value={ipInfo.ip} />
+          <InfoRow 
+            icon={<MapPin className="w-4 h-4 text-accent" />} 
+            label="Location" 
+            value={
+              <span className="flex items-center gap-2">
+                {getFlagEmoji(ipInfo.countryCode)} {ipInfo.city}, {ipInfo.country}
+              </span>
+            } 
+          />
         </div>
-        <InfoRow icon={<span className="text-xl">{getFlagEmoji(ipInfo.countryCode)}</span>} label="Country" value={ipInfo.country} />
-        <InfoRow icon={<Building className="w-4 h-4" />} label="Organization" value={ipInfo.org} />
+        <InfoRow icon={<Building className="w-4 h-4 text-accent" />} label="Organization" value={ipInfo.org} />
         
         {dnsRecords.length > 0 && (
           <>
