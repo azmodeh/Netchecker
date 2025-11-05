@@ -3,7 +3,7 @@
 import type { FormState } from '@/lib/types';
 import { AlertTriangle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { IpDnsCard, NetworkStatusCard } from './ip-info-card';
+import { IpDnsCard } from './ip-info-card';
 import CheckResultsList from './check-results-list';
 import MapDisplay from './map-display';
 import LatencyChart from './latency-chart';
@@ -15,11 +15,10 @@ const LoadingSkeleton = () => (
          <Skeleton className="w-full h-full rounded-2xl" />
       </div>
        <div className="space-y-8">
-        <Skeleton className="h-[430px] w-full rounded-2xl" />
+        <Skeleton className="h-[550px] w-full rounded-2xl" />
       </div>
        <div className="space-y-8">
-        <Skeleton className="h-[200px] w-full rounded-2xl" />
-        <Skeleton className="h-[360px] w-full rounded-2xl" />
+        <Skeleton className="h-[460px] w-full rounded-2xl" />
        </div>
        <div className="lg:col-span-2">
          <Skeleton className="h-[360px] w-full rounded-2xl" />
@@ -90,7 +89,6 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
         <IpDnsCard ipInfo={result.ipInfo} dnsRecords={result.dnsRecords} />
       </div>
        <div className="space-y-8">
-         <NetworkStatusCard ipInfo={result.ipInfo} />
          <CheckResultsList results={result.checkNodeResults} />
        </div>
        <div className="lg:col-span-2">

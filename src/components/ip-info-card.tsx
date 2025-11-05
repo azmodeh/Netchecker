@@ -64,6 +64,20 @@ export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: 
         </div>
         <InfoRow icon={<Building className="w-4 h-4 text-accent" />} label="Organization" value={ipInfo.org} />
         
+        <Separator className="my-4 bg-primary/20" />
+        
+        <div>
+            <h4 className="flex items-center gap-3 font-semibold text-foreground mb-3">
+                <Shield className="w-5 h-5 text-accent" />
+                Network Properties
+            </h4>
+            <div className="grid grid-cols-1 gap-3">
+                <StatusRow icon={<Wifi className="w-5 h-5"/>} label="Hosting Provider" value={ipInfo.hosting} />
+                <StatusRow icon={<Shield className="w-5 h-5"/>} label="Proxy/VPN" value={ipInfo.proxy} />
+                <StatusRow icon={<Smartphone className="w-5 h-5"/>} label="Mobile Network" value={ipInfo.mobile} />
+            </div>
+        </div>
+
         {dnsRecords.length > 0 && (
           <>
             <Separator className="my-4 bg-primary/20" />
@@ -88,20 +102,3 @@ export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: 
   );
 }
       
-export function NetworkStatusCard({ ipInfo }: { ipInfo: IpInfo }) {
-    return (
-        <Card className="glass-card">
-            <CardHeader>
-            <CardTitle className="flex items-center gap-3 font-display text-accent">
-                <Shield />
-                Network Status
-            </CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-1 gap-3">
-                <StatusRow icon={<Wifi className="w-5 h-5"/>} label="Hosting Provider" value={ipInfo.hosting} />
-                <StatusRow icon={<Shield className="w-5 h-5"/>} label="Proxy/VPN" value={ipInfo.proxy} />
-                <StatusRow icon={<Smartphone className="w-5 h-5"/>} label="Mobile Network" value={ipInfo.mobile} />
-            </CardContent>
-        </Card>
-    );
-}
