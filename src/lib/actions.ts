@@ -24,7 +24,14 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
   }
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/ip-info/${ip}`);
+    const response = await fetch(`http://localhost:9002/api/ip-info/${ip}`);
+    
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`ip-api request failed with status ${response.status}:`, errorText);
+        throw new Error(`Failed to fetch IP information. Status: ${response.status}`);
+    }
+        
     const data = await response.json();
 
     if (data.status === 'success') {
@@ -41,34 +48,21 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
         hosting: data.hosting,
       };
     }
-     if (data.error) {
-      throw new Error(data.reason);
+
+    // Handle ip-api.com specific errors
+    if (data.status === 'fail') {
+      console.error('ip-api.com error:', data.message);
+      throw new Error(`Failed to get IP info: ${data.message}`);
     }
-  } catch (e) {
-    console.error("ip-api.com failed, this can happen when using rewrites from localhost", e)
-    throw new Error('Failed to fetch IP information.');
+
+    // Fallback for any other unexpected response structure
+    throw new Error('Received an unexpected response from IP info service.');
+
+  } catch (e: any) {
+    console.error("Error in getIpInfo:", e);
+    // Re-throw a more generic error to be caught by the main action handler
+    throw new Error('Failed to fetch IP information due to a network or server error.');
   }
-
-  // Fallback shouldn't be needed with rewrite but keeping it just in case.
-  const response = await fetch(`https://ipapi.co/${ip}/json/`);
-  const data = await response.json();
-
-  if (data.error) {
-    throw new Error(data.reason);
-  }
-
-  return {
-    ip: data.ip,
-    city: data.city,
-    region: data.region,
-    country: data.country_name,
-    countryCode: data.country_code,
-    org: data.org,
-    loc: `${data.latitude},${data.longitude}`,
-    proxy: false, 
-    hosting: false,
-    mobile: false
-  };
 }
 
 
@@ -137,6 +131,6 @@ export async function performGlobalCheck(prevState: FormState, formData: FormDat
         if (error.code === 'ENOTFOUND' || error.code === 'EAI_AGAIN') {
             return { error: `Could not resolve DNS for '${domain}'. Please check the name and try again.` };
         }
-        return { error: 'An unexpected error occurred. Please try again.' };
+        return { error: error.message || 'An unexpected error occurred. Please try again.' };
     }
 }
