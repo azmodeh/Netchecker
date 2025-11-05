@@ -13,6 +13,8 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
 
   const mapMarkers = result ? (() => {
     const markers = [];
+    
+    // Add marker for the target IP
     const targetLocString = result.ipInfo.loc;
     if (targetLocString && targetLocString.includes(',')) {
       const targetCoords = targetLocString.split(',').map(parseFloat);
@@ -26,6 +28,19 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
         });
       }
     }
+
+    // Add markers for check nodes
+    result.checkNodeResults.forEach(nodeResult => {
+      if (nodeResult.nodeInfo && nodeResult.nodeInfo.lat && nodeResult.nodeInfo.lon) {
+        markers.push({
+          latitude: nodeResult.nodeInfo.lat,
+          longitude: nodeResult.nodeInfo.lon,
+          color: 'hsl(var(--accent))',
+          label: `${nodeResult.nodeInfo.name}: ${nodeResult.latency}ms`,
+        });
+      }
+    });
+
     return markers;
   })() : [];
 
