@@ -62,6 +62,7 @@ export default function MapDisplay({ markers }: Props) {
 
   return (
     <Map
+      key={JSON.stringify(markers)} // Force re-render when markers change
       initialViewState={initialViewState}
       style={{ width: '100%', height: '100%'}}
       mapStyle="mapbox://styles/mapbox/dark-v11"
