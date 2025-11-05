@@ -30,7 +30,7 @@ export default function IpInfoCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dns
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <InfoRow icon={<Server className="w-4 h-4" />} label="IP Address" value={ipInfo.ip} />
           <InfoRow icon={<MapPinIcon className="w-4 h-4" />} label="Location" value={`${ipInfo.city}, ${ipInfo.country}`} />
           <InfoRow icon={<Building className="w-4 h-4" />} label="Organization" value={ipInfo.org} />
