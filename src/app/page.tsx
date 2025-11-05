@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect, useState, startTransition } from 'react';
 import { performGlobalCheck } from '@/lib/actions';
 import type { FormState } from '@/lib/types';
 import LookupForm from '@/components/lookup-form';
@@ -26,15 +26,17 @@ export default function Home() {
         if (ip) {
           const formData = new FormData();
           formData.append('domain', ip);
-          // Directly call the action function
-          const newState = await performGlobalCheck(initialState, formData);
-          // Manually update the state
-          (formAction as (payload: FormData) => void)(formData);
+          // Calling the action outside a form submission needs to be wrapped in a transition
+          startTransition(() => {
+            (formAction as (payload: FormData) => void)(formData);
+          });
         }
       } catch (error) {
         console.error('Error during initial IP check:', error);
         // If the initial check fails, just show the form
-         (formAction as (payload: FormData) => void)(new FormData());
+         startTransition(() => {
+            (formAction as (payload: FormData) => void)(new FormData());
+         });
       } finally {
         setInitialCheckDone(true);
       }
