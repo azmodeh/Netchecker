@@ -1,37 +1,47 @@
 
 'use client';
 
-export default function Home() {
-  return (
-    <div className="relative h-screen">
-      {/* Background Pattern */}
-      <div className="absolute inset-0">
-        <div className="relative h-full w-full bg-slate-950 [&>div]:absolute [&>div]:inset-0 [&>div]:bg-[radial-gradient(circle_500px_at_50%_200px,#3e3e3e,transparent)]">
-          <div></div>
-        </div>
-      </div>
+import { useActionState } from 'react';
+import { performGlobalCheck } from '@/lib/actions';
+import type { FormState } from '@/lib/types';
+import { LogoIcon } from '@/components/icons';
+import Background from '@/components/background';
+import LookupForm from '@/components/lookup-form';
+import ResultsDisplay from '@/components/results-display';
 
-      {/* Hero Content */}
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-4">
-        <div className="max-w-3xl text-center">
-          <h1 className="mb-8 text-4xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Your Next Great{' '}
-            <span className="text-sky-400">Project</span>
-          </h1>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-slate-300">
-            Build modern and beautiful websites with this collection of stunning
-            background patterns. Perfect for landing pages, apps, and dashboards.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="rounded-lg bg-sky-400 px-6 py-3 font-medium text-slate-900 hover:bg-sky-300">
-              Get Started
-            </button>
-            <button className="rounded-lg border border-slate-700 bg-slate-800 px-6 py-3 font-medium text-white hover:bg-slate-700">
-              Learn More
-            </button>
+const initialState: FormState = {};
+
+export default function Home() {
+  const [state, formAction] = useActionState(performGlobalCheck, initialState);
+
+  return (
+    <>
+      <Background />
+      <main className="container mx-auto px-4 py-8 md:py-16 relative z-10">
+        <header className="text-center mb-12">
+          <div className="inline-flex items-center gap-4 mb-4">
+            <LogoIcon className="w-16 h-16 text-primary" />
+            <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight text-foreground">
+              Global NetCheck Vista
+            </h1>
           </div>
-        </div>
-      </div>
-    </div>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            Enter a domain or IP to analyze its network performance and accessibility from key locations around the world.
+          </p>
+        </header>
+
+        <section className="max-w-2xl mx-auto mb-12">
+          <LookupForm formAction={formAction} />
+        </section>
+
+        <section key={state.timestamp}>
+          <ResultsDisplay state={state} />
+        </section>
+
+        <footer className="text-center mt-16 text-sm text-muted-foreground">
+          <p>Powered by AI. Checks performed from multiple global nodes.</p>
+        </footer>
+      </main>
+    </>
   );
 }
