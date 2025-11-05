@@ -4,7 +4,6 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import type { AnomalySummary, CheckResult } from '@/lib/types';
-import { gemini15Flash } from '@genkit-ai/google-genai';
 
 // Define the Zod schema for the input, mirroring the CheckResult type
 const CheckResultSchema = z.object({
@@ -57,6 +56,7 @@ export async function detectNetworkAnomaly(input: CheckResult): Promise<AnomalyS
 
 const anomalyDetectionPrompt = ai.definePrompt({
   name: 'anomalyDetectionPrompt',
+  model: 'googleai/gemini-1.5-flash',
   input: { schema: PromptInputSchema },
   output: { schema: AnomalySummarySchema },
   prompt: `
@@ -96,14 +96,7 @@ const anomalyDetectionFlow = ai.defineFlow(
       stringifiedCheckNodeResults: JSON.stringify(input.checkNodeResults, null, 2),
     };
     
-    const { output } = await ai.generate({
-      model: gemini15Flash,
-      prompt: anomalyDetectionPrompt.prompt,
-      input: promptInput,
-      output: {
-        schema: AnomalySummarySchema,
-      }
-    });
+    const { output } = await anomalyDetectionPrompt(promptInput);
     
     if (!output) {
       // Handle the case where the AI model doesn't return a valid output
