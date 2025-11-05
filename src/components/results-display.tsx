@@ -77,6 +77,9 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
       <div className="lg:col-span-2">
         <CheckResultsList results={result.checkNodeResults} />
       </div>
+       <div className="lg:col-span-3">
+        <LatencyChart results={result.checkNodeResults} />
+      </div>
     </div>
   );
 }
