@@ -31,11 +31,18 @@ export type CheckNodeResult = {
   nodeInfo: NodeInfo;
 };
 
+export type AnomalySummary = {
+  isAnomaly: boolean;
+  summary: string;
+  recommendation: string;
+};
+
 export type CheckResult = {
   ip: string;
   dnsRecords: DnsRecord[];
   ipInfo: IpInfo;
   checkNodeResults: CheckNodeResult[];
+  anomalySummary?: AnomalySummary;
 };
 
 export type FormState = {

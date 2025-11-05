@@ -7,6 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import IpInfoCard from './ip-info-card';
 import CheckResultsList from './check-results-list';
 import MapDisplay from './map-display';
+import AnomalyCard from './anomaly-card';
 import { useMemo } from 'react';
 
 export default function ResultsDisplay({ state }: { state: FormState }) {
@@ -65,6 +66,11 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
       <div className="lg:col-span-3 h-[400px] md:h-[500px] glass-card p-2 md:p-4">
         <MapDisplay markers={mapMarkers} />
       </div>
+      {result.anomalySummary && (
+        <div className="lg:col-span-3">
+          <AnomalyCard summary={result.anomalySummary} />
+        </div>
+      )}
       <div className="lg:col-span-1">
         <IpInfoCard ipInfo={result.ipInfo} dnsRecords={result.dnsRecords} />
       </div>

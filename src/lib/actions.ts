@@ -5,6 +5,7 @@ import { promises as dns } from 'node:dns';
 import { isIP } from 'node:net';
 import { appConfig } from '@/lib/config';
 import type { CheckResult, DnsRecord, IpInfo, CheckNodeResult, FormState } from '@/lib/types';
+import { detectNetworkAnomaly } from '@/ai/flows/anomaly-flow';
 
 // Mock IPInfo service
 async function getIpInfo(ip: string): Promise<IpInfo> {
@@ -86,13 +87,19 @@ export async function performGlobalCheck(prevState: FormState, formData: FormDat
             runCheckHost(targetIp)
         ]);
         
-        // Placeholder for AI Anomaly Detection service call
+        const anomalySummary = await detectNetworkAnomaly({
+            ip: targetIp,
+            dnsRecords,
+            ipInfo,
+            checkNodeResults,
+        });
         
         const result: CheckResult = {
             ip: targetIp,
             dnsRecords,
             ipInfo,
             checkNodeResults,
+            anomalySummary,
         };
 
         return { result, timestamp: Date.now() };
