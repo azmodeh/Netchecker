@@ -1,10 +1,8 @@
-
 'use client';
 
 import { useActionState } from 'react';
 import { performGlobalCheck } from '@/lib/actions';
 import type { FormState } from '@/lib/types';
-import Background from '@/components/background';
 import LookupForm from '@/components/lookup-form';
 import ResultsDisplay from '@/components/results-display';
 import { LogoIcon } from '@/components/icons';
@@ -17,16 +15,16 @@ export default function Home() {
 
   return (
     <>
-      <Background />
+      <div className="fixed top-0 left-0 w-full h-full -z-10 bg-background" />
       <main className="container mx-auto px-4 py-10 relative z-10 min-h-screen">
         <header className="text-center mb-12">
           <div className="inline-flex items-center gap-4 mb-4">
-             <LogoIcon className="w-12 h-12 text-accent" />
-             <h1 className="text-5xl font-bold font-display bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <LogoIcon className="w-12 h-12 text-primary" />
+            <h1 className="text-5xl font-bold font-display text-foreground">
               Global NetCheck Vista
             </h1>
           </div>
-           <p className="max-w-2xl mx-auto text-xl text-muted-foreground">
+          <p className="max-w-2xl mx-auto text-xl text-muted-foreground">
               An AI-powered network intelligence platform for global performance analysis.
             </p>
         </header>
@@ -45,7 +43,7 @@ export default function Home() {
 
         </section>
 
-        <footer className="text-center mt-16 text-sm text-muted-foreground p-6 border-t border-primary/20">
+        <footer className="text-center mt-16 text-sm text-muted-foreground p-6 border-t border-border">
           <p>Powered by AI. Checks performed from multiple global nodes.</p>
         </footer>
       </main>

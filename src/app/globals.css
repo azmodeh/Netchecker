@@ -5,17 +5,17 @@
 
 @layer base {
   :root {
-    --background: 210 22% 10%; /* #0F1419 */
+    --background: 224 71.4% 4.1%; /* #08090F - Neutral Dark Gray */
     --foreground: 0 0% 100%; /* #FFFFFF */
     
-    --card: 210 14% 13% / 0.5; /* #1A2025 with transparency */
+    --card: 224 71.4% 4.1% / 0.75; /* #08090F with transparency */
     --card-foreground: 0 0% 100%;
 
-    --popover: 210 14% 13%;
+    --popover: 224 71.4% 4.1%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 192 59% 53%; /* hsl(192, 59%, 53%) */
-    --primary-foreground: 210 22% 10%;
+    --primary: 217 91% 60%; /* #3B82F6 - Pure Blue */
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 215 28% 17%;
     --secondary-foreground: 0 0% 98%;
@@ -23,31 +23,31 @@
     --muted: 215 28% 17%;
     --muted-foreground: 0 0% 69%; /* #B0B0B0 */
 
-    --accent: 192 69% 63%; /* hsl(192, 69%, 63%) */
-    --accent-foreground: 210 22% 10%;
+    --accent: 217 91% 70%; /* #60A5FA - Lighter Pure Blue */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 100% 66%; /* #FF5252 */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 192 59% 53% / 0.2; /* hsla(192, 59%, 53%, 0.2) */
-    --input: 192 59% 53% / 0.3;
-    --ring: 192 59% 53%;
+    --border: 217 91% 60% / 0.2; /* Pure Blue border */
+    --input: 217 91% 60% / 0.3;
+    --ring: 217 91% 60%;
 
     --radius: 1rem;
   }
  
   .dark {
-     --background: 210 22% 10%; /* #0F1419 */
+    --background: 224 71.4% 4.1%; /* #08090F - Neutral Dark Gray */
     --foreground: 0 0% 100%; /* #FFFFFF */
     
-    --card: 210 14% 13% / 0.5; /* #1A2025 with transparency */
+    --card: 224 71.4% 4.1% / 0.75; /* #08090F with transparency */
     --card-foreground: 0 0% 100%;
 
-    --popover: 210 14% 13%;
+    --popover: 224 71.4% 4.1%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 192 59% 53%; /* hsl(192, 59%, 53%) */
-    --primary-foreground: 210 22% 10%;
+    --primary: 217 91% 60%; /* #3B82F6 - Pure Blue */
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 215 28% 17%;
     --secondary-foreground: 0 0% 98%;
@@ -55,15 +55,15 @@
     --muted: 215 28% 17%;
     --muted-foreground: 0 0% 69%; /* #B0BОB0 */
 
-    --accent: 192 69% 63%; /* hsl(192, 69%, 63%) */
-    --accent-foreground: 210 22% 10%;
+    --accent: 217 91% 70%; /* #60A5FA - Lighter Pure Blue */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 100% 66%; /* #FF5252 */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 192 59% 53% / 0.2; /* hsla(192, 59%, 53%, 0.2) */
-    --input: 192 59% 53% / 0.3;
-    --ring: 192 59% 53%;
+    --border: 217 91% 60% / 0.2; /* Pure Blue border */
+    --input: 217 91% 60% / 0.3;
+    --ring: 217 91% 60%;
 
     --radius: 1rem;
   }
@@ -88,13 +88,4 @@
   @apply bg-card backdrop-blur-2xl border border-primary/20 rounded-2xl shadow-2xl shadow-black/40;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-@keyframes sparkle {
-  0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
-  50% { opacity: 1; transform: scale(1) rotate(180deg); }
-}
-
-.animate-sparkle {
-  animation: sparkle 3s linear infinite;
 }
