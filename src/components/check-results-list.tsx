@@ -5,6 +5,8 @@ import type { CheckNodeResult } from "@/lib/types";
 import Image from "next/image";
 
 export default function CheckResultsList({ results }: { results: CheckNodeResult[] }) {
+  const sortedResults = [...results].sort((a, b) => a.latency - b.latency);
+
   return (
     <Card className="glass-card h-full">
       <CardHeader>
@@ -15,7 +17,7 @@ export default function CheckResultsList({ results }: { results: CheckNodeResult
       </CardHeader>
       <CardContent>
         <ul className="space-y-3">
-          {results.map(result => (
+          {sortedResults.map(result => (
             <li key={result.node} className="flex items-center justify-between p-3 bg-card/50 rounded-lg transition-colors hover:bg-card/80">
               <div className="flex items-center gap-3">
                  {result.nodeInfo.countryCode && (
