@@ -9,7 +9,7 @@ import { LoaderCircle } from "lucide-react";
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" size="lg" className="btn-primary" disabled={pending}>
+    <Button type="submit" size="lg" disabled={pending}>
       {pending ? (
         <>
           <LoaderCircle className="animate-spin" />

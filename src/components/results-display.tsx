@@ -2,7 +2,7 @@
 'use client';
 
 import type { FormState } from '@/lib/types';
-import { AlertTriangle, BarChart, LoaderCircle } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { IpDnsCard, NetworkStatusCard } from './ip-info-card';
 import CheckResultsList from './check-results-list';
@@ -45,10 +45,11 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
 
   if (error) {
     return (
-      <div className="bg-destructive/10 border border-destructive/30 rounded-xl p-4 text-destructive mt-4">
-        <AlertTriangle className="inline-block mr-2" />
-        {error}
-      </div>
+      <Alert variant="destructive" className="mt-4">
+        <AlertTriangle className="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
     );
   }
 
