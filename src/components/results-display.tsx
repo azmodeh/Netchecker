@@ -4,7 +4,7 @@
 import type { FormState } from '@/lib/types';
 import { AlertTriangle, BarChart, LoaderCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import IpInfoCard from './ip-info-card';
+import { IpDnsCard, NetworkStatusCard } from './ip-info-card';
 import CheckResultsList from './check-results-list';
 import MapDisplay from './map-display';
 import AnomalyCard from './anomaly-card';
@@ -78,22 +78,23 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-in fade-in-0 zoom-in-95 duration-500 mt-8">
-      <div className="lg:col-span-3 h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-primary/20">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in fade-in-0 zoom-in-95 duration-500 mt-8">
+      <div className="lg:col-span-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-primary/20">
         <MapDisplay markers={mapMarkers} />
       </div>
       {result.anomalySummary && (
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-2">
           <AnomalyCard summary={result.anomalySummary} />
         </div>
       )}
-      <div className="lg:col-span-1">
-        <IpInfoCard ipInfo={result.ipInfo} dnsRecords={result.dnsRecords} />
+      <div className="lg:col-span-1 space-y-8">
+        <IpDnsCard ipInfo={result.ipInfo} dnsRecords={result.dnsRecords} />
       </div>
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-1 space-y-8">
+        <NetworkStatusCard ipInfo={result.ipInfo} />
         <CheckResultsList results={result.checkNodeResults} />
       </div>
-       <div className="lg:col-span-3">
+       <div className="lg:col-span-2">
         <LatencyChart results={result.checkNodeResults} />
       </div>
     </div>

@@ -45,59 +45,61 @@ function getFlagEmoji(countryCode: string) {
   return String.fromCodePoint(...codePoints);
 }
 
-export default function IpInfoCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: DnsRecord[] }) {
+export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: DnsRecord[] }) {
   return (
-    <>
-      <Card className="liquid-glass h-full">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 font-display text-primary">
-            <Globe />
-            IP & DNS Information
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <InfoRow icon={<Server className="w-4 h-4" />} label="IP Address" value={ipInfo.ip} />
-            <InfoRow icon={<MapPin className="w-4 h-4" />} label="Location" value={`${ipInfo.city}, ${ipInfo.country}`} />
-            <InfoRow icon={<span className="text-xl">{getFlagEmoji(ipInfo.countryCode)}</span>} label="Country" value={ipInfo.country} />
-          </div>
-           <InfoRow icon={<Building className="w-4 h-4" />} label="Organization" value={ipInfo.org} />
-          
-          {dnsRecords.length > 0 && (
-            <>
-              <Separator className="my-4 bg-primary/20" />
-              <div className="space-y-3">
-                <h4 className="flex items-center gap-3 text-sm font-medium text-foreground">
-                  <Dna className="w-4 h-4 text-accent" />
-                  DNS Records
-                </h4>
-                <div className="pl-7 space-y-2">
-                  {dnsRecords.map(record => (
-                    <div key={`${record.type}-${record.value}`} className="flex items-center gap-2 text-sm">
-                      <span className="font-mono text-xs text-primary bg-primary/10 px-1.5 py-0.5 rounded-sm">{record.type}</span>
-                      <span className="font-mono text-muted-foreground break-all">{record.value}</span>
-                    </div>
-                  ))}
-                </div>
+    <Card className="liquid-glass h-full">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 font-display text-primary">
+          <Globe />
+          IP & DNS Information
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <InfoRow icon={<Server className="w-4 h-4" />} label="IP Address" value={ipInfo.ip} />
+          <InfoRow icon={<MapPin className="w-4 h-4" />} label="Location" value={`${ipInfo.city}, ${ipInfo.country}`} />
+        </div>
+        <InfoRow icon={<span className="text-xl">{getFlagEmoji(ipInfo.countryCode)}</span>} label="Country" value={ipInfo.country} />
+        <InfoRow icon={<Building className="w-4 h-4" />} label="Organization" value={ipInfo.org} />
+        
+        {dnsRecords.length > 0 && (
+          <>
+            <Separator className="my-4 bg-primary/20" />
+            <div className="space-y-3">
+              <h4 className="flex items-center gap-3 text-sm font-medium text-foreground">
+                <Dna className="w-4 h-4 text-accent" />
+                DNS Records
+              </h4>
+              <div className="pl-7 space-y-2">
+                {dnsRecords.map(record => (
+                  <div key={`${record.type}-${record.value}`} className="flex items-center gap-2 text-sm">
+                    <span className="font-mono text-xs text-primary bg-primary/10 px-1.5 py-0.5 rounded-sm">{record.type}</span>
+                    <span className="font-mono text-muted-foreground break-all">{record.value}</span>
+                  </div>
+                ))}
               </div>
-            </>
-          )}
-        </CardContent>
-      </Card>
-      
-      <Card className="liquid-glass mt-8">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 font-display text-primary">
-            <Shield />
-            Network Status
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <StatusRow icon={<Wifi className="w-5 h-5"/>} label="Hosting" value={ipInfo.hosting} />
-            <StatusRow icon={<Shield className="w-5 h-5"/>} label="Proxy" value={ipInfo.proxy} />
-            <StatusRow icon={<Smartphone className="w-5 h-5"/>} label="Mobile" value={ipInfo.mobile} />
-        </CardContent>
-      </Card>
-    </>
+            </div>
+          </>
+        )}
+      </CardContent>
+    </Card>
   );
+}
+      
+export function NetworkStatusCard({ ipInfo }: { ipInfo: IpInfo }) {
+    return (
+        <Card className="liquid-glass">
+            <CardHeader>
+            <CardTitle className="flex items-center gap-2 font-display text-primary">
+                <Shield />
+                Network Status
+            </CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <StatusRow icon={<Wifi className="w-5 h-5"/>} label="Hosting" value={ipInfo.hosting} />
+                <StatusRow icon={<Shield className="w-5 h-5"/>} label="Proxy" value={ipInfo.proxy} />
+                <StatusRow icon={<Smartphone className="w-5 h-5"/>} label="Mobile" value={ipInfo.mobile} />
+            </CardContent>
+        </Card>
+    );
 }
