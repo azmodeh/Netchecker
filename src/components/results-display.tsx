@@ -9,14 +9,11 @@ import CheckResultsList from './check-results-list';
 import MapDisplay from './map-display';
 import AnomalyCard from './anomaly-card';
 import LatencyChart from './latency-chart';
-import { useMemo } from 'react';
 
 export default function ResultsDisplay({ state }: { state: FormState }) {
   const { result, error } = state;
 
-    const mapMarkers = useMemo(() => {
-    if (!result) return [];
-    
+  const mapMarkers = result ? (() => {
     const markers = [];
 
     // Add marker for the target IP
@@ -45,7 +42,8 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
     });
 
     return markers;
-  }, [result]);
+  })() : [];
+
 
   if (error) {
     return (

@@ -120,17 +120,17 @@ export async function performGlobalCheck(prevState: FormState, formData: FormDat
             runCheckHost(targetIp)
         ]);
         
-        const partialResult = {
+        const checkResultData: CheckResult = {
             ip: targetIp,
             dnsRecords,
             ipInfo,
             checkNodeResults,
         };
 
-        const anomalySummary = await detectNetworkAnomaly(partialResult);
+        const anomalySummary = await detectNetworkAnomaly(checkResultData);
         
         const result: CheckResult = {
-            ...partialResult,
+            ...checkResultData,
             anomalySummary,
         };
 
