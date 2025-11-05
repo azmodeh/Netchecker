@@ -26,16 +26,16 @@ export default function Home() {
         if (ip) {
           const formData = new FormData();
           formData.append('domain', ip);
-          // Calling the action outside a form submission needs to be wrapped in a transition
           startTransition(() => {
             (formAction as (payload: FormData) => void)(formData);
           });
         }
       } catch (error) {
         console.error('Error during initial IP check:', error);
-        // If the initial check fails, just show the form
+         const formData = new FormData();
+         formData.append('error', 'Could not fetch your IP address. Please enter one manually.');
          startTransition(() => {
-            (formAction as (payload: FormData) => void)(new FormData());
+            (formAction as (payload: FormData) => void)(formData);
          });
       } finally {
         setInitialCheckDone(true);
@@ -71,7 +71,7 @@ export default function Home() {
             </div>
 
           <section key={state.timestamp}>
-            {!initialCheckDone ? (
+            {!initialCheckDone && !state.error ? (
               <div className="text-center text-muted-foreground py-16">
                 <p>Checking your IP address...</p>
               </div>

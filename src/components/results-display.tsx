@@ -71,7 +71,7 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
   if (!result && !error && state.timestamp) { // Loading state
     return <LoadingSkeleton />;
   }
-
+  
   if (!result) {
     return (
        <div className="text-center text-muted-foreground py-16">

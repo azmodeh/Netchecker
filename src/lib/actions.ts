@@ -83,6 +83,8 @@ export async function performGlobalCheck(prevState: FormState, formData: FormDat
     const domain = formData.get('domain') as string;
 
     if (!domain) {
+        const error = formData.get('error') as string;
+        if(error) return { error, timestamp: Date.now() };
         return { timestamp: Date.now() };
     }
 
