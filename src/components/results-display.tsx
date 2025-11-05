@@ -13,8 +13,6 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
 
   const mapMarkers = result ? (() => {
     const markers = [];
-
-    // Add marker for the target IP
     const targetLocString = result.ipInfo.loc;
     if (targetLocString && targetLocString.includes(',')) {
       const targetCoords = targetLocString.split(',').map(parseFloat);
@@ -28,10 +26,8 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
         });
       }
     }
-    
     return markers;
   })() : [];
-
 
   if (error) {
     return (
@@ -52,7 +48,6 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
       </div>
     );
   }
-
 
   if (!result) {
     return (

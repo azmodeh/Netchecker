@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { ViewState } from 'react-map-gl';
@@ -33,11 +33,20 @@ export default function MapDisplay({ markers }: Props) {
   const [isMounted, setIsMounted] = useState(false);
   const [popupInfo, setPopupInfo] = useState<MapMarker | null>(null);
 
-  const initialViewState: Partial<ViewState> = {
-    longitude: markers[0]?.longitude ?? -20,
-    latitude: markers[0]?.latitude ?? 30,
-    zoom: markers.length > 0 ? 4 : 1.5,
-  };
+  const initialViewState: Partial<ViewState> = useMemo(() => {
+    if (markers.length > 0) {
+      return {
+        longitude: markers[0].longitude,
+        latitude: markers[0].latitude,
+        zoom: 4,
+      }
+    }
+    return {
+      longitude: -20,
+      latitude: 30,
+      zoom: 1.5,
+    }
+  }, [markers]);
   
   useEffect(() => {
     setIsMounted(true);
