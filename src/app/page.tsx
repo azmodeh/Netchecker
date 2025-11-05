@@ -6,7 +6,7 @@ import type { FormState } from '@/lib/types';
 import LookupForm from '@/components/lookup-form';
 import ResultsDisplay from '@/components/results-display';
 import { LogoIcon } from '@/components/icons';
-import { Globe } from 'lucide-react';
+import Background from '@/components/background';
 
 const initialState: FormState = {};
 
@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full h-full -z-10 bg-background" />
+      <Background />
       <main className="container mx-auto px-4 py-10 relative z-10 min-h-screen">
         <header className="text-center mb-12">
           <div className="inline-flex items-center gap-4 mb-4">
