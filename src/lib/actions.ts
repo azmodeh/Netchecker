@@ -60,8 +60,8 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
 
   } catch (e: any) {
     console.error("Error in getIpInfo:", e);
-    // Re-throw a more generic error to be caught by the main action handler
-    throw new Error('Failed to fetch IP information due to a network or server error.');
+    // Re-throw a more specific error if available, otherwise a generic one
+    throw new Error(e.message || 'Failed to fetch IP information due to a network or server error.');
   }
 }
 
