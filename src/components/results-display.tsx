@@ -16,10 +16,10 @@ const LoadingSkeleton = () => (
       </div>
        <div className="space-y-8">
         <Skeleton className="h-[300px] w-full" />
-        <Skeleton className="h-[200px] w-full" />
       </div>
        <div className="space-y-8">
-        <Skeleton className="h-[524px] w-full" />
+        <Skeleton className="h-[200px] w-full" />
+        <Skeleton className="h-[300px] w-full" />
        </div>
        <div className="lg:col-span-2">
          <Skeleton className="h-[360px] w-full" />
@@ -93,9 +93,9 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
       </div>
       <div className="space-y-8">
         <IpDnsCard ipInfo={result.ipInfo} dnsRecords={result.dnsRecords} />
-        <NetworkStatusCard ipInfo={result.ipInfo} />
       </div>
        <div className="space-y-8">
+         <NetworkStatusCard ipInfo={result.ipInfo} />
          <CheckResultsList results={result.checkNodeResults} />
        </div>
        <div className="lg:col-span-2">
