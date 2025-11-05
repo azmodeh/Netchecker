@@ -54,9 +54,9 @@ const anomalyDetectionPrompt = ai.definePrompt({
     
     Data:
     - Target IP: {{{ip}}}
-    - IP Info: {{{JSONstringify ipInfo}}}
-    - DNS Records: {{{JSONstringify dnsRecords}}}
-    - Global Check Node Results: {{{JSONstringify checkNodeResults}}}
+    - IP Info: {{{JSON.stringify ipInfo}}}
+    - DNS Records: {{{JSON.stringify dnsRecords}}}
+    - Global Check Node Results: {{{JSON.stringify checkNodeResults}}}
     
     Your task is to determine if there's a significant anomaly.
     An anomaly could be:
@@ -68,9 +68,6 @@ const anomalyDetectionPrompt = ai.definePrompt({
     Based on your analysis, provide a summary and a recommendation.
     If everything looks normal, state that clearly.
   `,
-  helpers: {
-    JSONstringify: (obj: any) => JSON.stringify(obj),
-  }
 });
 
 const anomalyDetectionFlow = ai.defineFlow(
@@ -80,7 +77,11 @@ const anomalyDetectionFlow = ai.defineFlow(
     outputSchema: AnomalySummarySchema,
   },
   async (input) => {
-    const { output } = await anomalyDetectionPrompt(input);
+    const { output } = await anomalyDetectionPrompt({
+        ...input,
+        // @ts-ignore
+        'JSON.stringify': JSON.stringify,
+    });
     return output!;
   }
 );
