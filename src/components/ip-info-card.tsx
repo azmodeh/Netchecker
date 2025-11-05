@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { IpInfo, DnsRecord } from "@/lib/types";
@@ -40,10 +41,10 @@ export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: 
   const flagUrl = ipInfo.countryCode ? `https://flagcdn.com/w40/${ipInfo.countryCode.toLowerCase()}.png` : '';
 
   return (
-    <Card className="liquid-glass h-full">
+    <Card className="glass-card h-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-3 font-display">
-          <Globe className="text-primary" />
+          <Globe className="text-accent" />
           IP & DNS Information
         </CardTitle>
       </CardHeader>
@@ -89,9 +90,9 @@ export function IpDnsCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dnsRecords: 
       
 export function NetworkStatusCard({ ipInfo }: { ipInfo: IpInfo }) {
     return (
-        <Card className="liquid-glass">
+        <Card className="glass-card">
             <CardHeader>
-            <CardTitle className="flex items-center gap-3 font-display text-primary">
+            <CardTitle className="flex items-center gap-3 font-display text-accent">
                 <Shield />
                 Network Status
             </CardTitle>

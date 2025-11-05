@@ -6,10 +6,10 @@ import Image from "next/image";
 
 export default function CheckResultsList({ results }: { results: CheckNodeResult[] }) {
   return (
-    <Card className="liquid-glass h-full">
+    <Card className="glass-card h-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-display">
-          <Wifi />
+          <Wifi className="text-accent"/>
           Global Check Nodes
         </CardTitle>
       </CardHeader>
@@ -35,7 +35,7 @@ export default function CheckResultsList({ results }: { results: CheckNodeResult
 
                <div className="flex items-center gap-4">
                 {result.status === 'success' ? (
-                    <CheckCircle2 className="w-6 h-6 text-primary shrink-0" />
+                    <CheckCircle2 className="w-6 h-6 text-green-500 shrink-0" />
                   ) : (
                     <XCircle className="w-6 h-6 text-destructive shrink-0" />
                   )}

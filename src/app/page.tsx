@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useActionState } from 'react';
@@ -7,6 +8,7 @@ import Background from '@/components/background';
 import LookupForm from '@/components/lookup-form';
 import ResultsDisplay from '@/components/results-display';
 import { LogoIcon } from '@/components/icons';
+import { Globe } from 'lucide-react';
 
 const initialState: FormState = {};
 
@@ -19,7 +21,7 @@ export default function Home() {
       <main className="container mx-auto px-4 py-10 relative z-10 min-h-screen">
         <header className="text-center mb-12">
           <div className="inline-flex items-center gap-4 mb-4">
-             <LogoIcon className="w-12 h-12 text-primary" />
+             <LogoIcon className="w-12 h-12 text-accent" />
              <h1 className="text-5xl font-bold font-display bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Global NetCheck Vista
             </h1>
@@ -29,7 +31,7 @@ export default function Home() {
             </p>
         </header>
 
-        <section className="max-w-4xl mx-auto mb-10 liquid-glass p-8">
+        <section className="max-w-4xl mx-auto mb-10 glass-card p-8">
           <div className="relative z-[1]">
               <label htmlFor="domain-input" className="block mb-3 font-semibold text-foreground text-lg">
                 Check IP or Domain
@@ -43,7 +45,7 @@ export default function Home() {
 
         </section>
 
-        <footer className="text-center mt-16 text-sm text-muted-foreground p-6 border-t border-primary/20 animated-footer">
+        <footer className="text-center mt-16 text-sm text-muted-foreground p-6 border-t border-primary/20">
           <p>Powered by AI. Checks performed from multiple global nodes.</p>
         </footer>
       </main>

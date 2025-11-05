@@ -20,10 +20,10 @@ export default function LatencyChart({ results }: { results: CheckNodeResult[] }
   }));
 
   return (
-    <Card className="liquid-glass h-full">
+    <Card className="glass-card h-full">
        <CardHeader>
         <CardTitle className="flex items-center gap-2 font-display">
-          <TrendingUp />
+          <TrendingUp className="text-accent" />
           Latency Overview
         </CardTitle>
       </CardHeader>
@@ -47,10 +47,12 @@ export default function LatencyChart({ results }: { results: CheckNodeResult[] }
             />
              <Tooltip
                 contentStyle={{
-                    backgroundColor: 'hsl(var(--background))',
+                    backgroundColor: 'hsl(var(--card))',
                     borderColor: 'hsl(var(--border))',
                     color: 'hsl(var(--foreground))',
                     borderRadius: 'var(--radius)',
+                    background: 'hsla(var(--background), 0.8)',
+                    backdropFilter: 'blur(10px)',
                 }}
                 cursor={{ fill: 'hsl(var(--primary) / 0.1)' }}
              />

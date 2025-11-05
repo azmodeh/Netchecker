@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { FormState } from '@/lib/types';
@@ -88,7 +89,7 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in fade-in-0 zoom-in-95 duration-500 mt-8">
-      <div className="lg:col-span-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-primary/20 liquid-glass">
+      <div className="lg:col-span-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-primary/20 glass-card p-0">
         <MapDisplay markers={mapMarkers} />
       </div>
       <div className="space-y-8">
