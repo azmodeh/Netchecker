@@ -24,8 +24,7 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
   }
 
   try {
-    // ip-api.com provides proxy/hosting info
-    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,countryCode,regionName,city,lat,lon,isp,org,as,mobile,proxy,hosting,query`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/ip-info/${ip}`);
     const data = await response.json();
 
     if (data.status === 'success') {
@@ -42,11 +41,15 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
         hosting: data.hosting,
       };
     }
+     if (data.error) {
+      throw new Error(data.reason);
+    }
   } catch (e) {
-    console.error("ip-api.com failed, falling back to ipapi.co", e)
+    console.error("ip-api.com failed, this can happen when using rewrites from localhost", e)
+    throw new Error('Failed to fetch IP information.');
   }
 
-  // Fallback to ipapi.co if the first one fails
+  // Fallback shouldn't be needed with rewrite but keeping it just in case.
   const response = await fetch(`https://ipapi.co/${ip}/json/`);
   const data = await response.json();
 
@@ -62,7 +65,6 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
     countryCode: data.country_code,
     org: data.org,
     loc: `${data.latitude},${data.longitude}`,
-    // ipapi.co doesn't provide these details, so we default them.
     proxy: false, 
     hosting: false,
     mobile: false

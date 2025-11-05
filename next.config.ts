@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/ip-info/:path*',
+        destination: 'http://ip-api.com/json/:path*?fields=status,message,country,countryCode,regionName,city,lat,lon,isp,org,as,mobile,proxy,hosting,query',
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       {
