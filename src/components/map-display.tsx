@@ -37,7 +37,7 @@ export default function MapDisplay({ markers }: Props) {
   const initialViewState: Partial<ViewState> = {
     longitude: markers[0]?.longitude ?? -20,
     latitude: markers[0]?.latitude ?? 30,
-    zoom: markers.length > 0 ? 1.5 : 1,
+    zoom: markers.length > 0 ? 4 : 1,
   };
   
   useEffect(() => {
