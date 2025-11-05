@@ -32,14 +32,6 @@ const CheckResultSchema = z.object({
   })),
 });
 
-// A new schema for the prompt input, with stringified JSON fields
-const PromptInputSchema = z.object({
-  ip: z.string(),
-  stringifiedIpInfo: z.string(),
-  stringifiedDnsRecords: z.string(),
-  stringifiedCheckNodeResults: z.string(),
-});
-
 
 // Define the Zod schema for the output
 const AnomalySummarySchema = z.object({
@@ -50,24 +42,18 @@ const AnomalySummarySchema = z.object({
 
 // Define the main function to be exported
 export async function detectNetworkAnomaly(input: CheckResult): Promise<AnomalySummary> {
-  // The input to this function is the full CheckResult, but the flow expects it too.
   return anomalyDetectionFlow(input);
 }
 
 const anomalyDetectionPrompt = ai.definePrompt({
   name: 'anomalyDetectionPrompt',
   model: 'googleai/gemini-1.5-flash',
-  input: { schema: PromptInputSchema },
+  input: { schema: CheckResultSchema },
   output: { schema: AnomalySummarySchema },
   prompt: `
     You are a senior network engineer AI assistant.
     Analyze the provided network check results to identify potential anomalies.
-    
-    Data:
-    - Target IP: {{{ip}}}
-    - IP Info: {{{stringifiedIpInfo}}}
-    - DNS Records: {{{stringifiedDnsRecords}}}
-    - Global Check Node Results: {{{stringifiedCheckNodeResults}}}
+    The entire input object is available for your analysis.
     
     Your task is to determine if there's a significant anomaly.
     An anomaly could be:
@@ -84,19 +70,11 @@ const anomalyDetectionPrompt = ai.definePrompt({
 const anomalyDetectionFlow = ai.defineFlow(
   {
     name: 'anomalyDetectionFlow',
-    inputSchema: CheckResultSchema, // This now correctly matches the input from the action
+    inputSchema: CheckResultSchema,
     outputSchema: AnomalySummarySchema,
   },
   async (input) => {
-    // Stringify the complex objects for the prompt.
-    const promptInput: z.infer<typeof PromptInputSchema> = {
-      ip: input.ip,
-      stringifiedIpInfo: JSON.stringify(input.ipInfo, null, 2),
-      stringifiedDnsRecords: JSON.stringify(input.dnsRecords, null, 2),
-      stringifiedCheckNodeResults: JSON.stringify(input.checkNodeResults, null, 2),
-    };
-    
-    const { output } = await anomalyDetectionPrompt(promptInput);
+    const { output } = await anomalyDetectionPrompt(input);
     
     if (!output) {
       // Handle the case where the AI model doesn't return a valid output
