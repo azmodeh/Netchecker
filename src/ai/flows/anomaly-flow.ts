@@ -50,6 +50,7 @@ const AnomalySummarySchema = z.object({
 
 // Define the main function to be exported
 export async function detectNetworkAnomaly(input: CheckResult): Promise<AnomalySummary> {
+  // The input to this function is the full CheckResult, but the flow expects it too.
   return anomalyDetectionFlow(input);
 }
 
@@ -82,17 +83,29 @@ const anomalyDetectionPrompt = ai.definePrompt({
 const anomalyDetectionFlow = ai.defineFlow(
   {
     name: 'anomalyDetectionFlow',
-    inputSchema: CheckResultSchema,
+    inputSchema: CheckResultSchema, // This now correctly matches the input from the action
     outputSchema: AnomalySummarySchema,
   },
   async (input) => {
+    // Stringify the complex objects for the prompt.
     const promptInput: z.infer<typeof PromptInputSchema> = {
       ip: input.ip,
-      stringifiedIpInfo: JSON.stringify(input.ipInfo),
-      stringifiedDnsRecords: JSON.stringify(input.dnsRecords),
-      stringifiedCheckNodeResults: JSON.stringify(input.checkNodeResults),
+      stringifiedIpInfo: JSON.stringify(input.ipInfo, null, 2),
+      stringifiedDnsRecords: JSON.stringify(input.dnsRecords, null, 2),
+      stringifiedCheckNodeResults: JSON.stringify(input.checkNodeResults, null, 2),
     };
+    
     const { output } = await anomalyDetectionPrompt(promptInput);
-    return output!;
+    
+    if (!output) {
+      // Handle the case where the AI model doesn't return a valid output
+      return {
+        isAnomaly: true,
+        summary: "AI analysis could not be completed.",
+        recommendation: "Unable to get a response from the AI model. Please check the model configuration and try again."
+      };
+    }
+
+    return output;
   }
 );
