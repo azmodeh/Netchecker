@@ -8,20 +8,24 @@ import CheckResultsList from './check-results-list';
 import MapDisplay from './map-display';
 import LatencyChart from './latency-chart';
 import { Skeleton } from '@/components/ui/skeleton';
+import AIAnalysisCard from './ai-analysis-card';
 
 const LoadingSkeleton = () => (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-pulse mt-8">
-      <div className="lg:col-span-2 h-[400px] md:h-[500px]">
-         <Skeleton className="w-full h-full rounded-2xl" />
-      </div>
-       <div className="space-y-8">
-        <Skeleton className="h-[550px] w-full rounded-2xl" />
-      </div>
-       <div className="space-y-8">
-        <Skeleton className="h-[460px] w-full rounded-2xl" />
-       </div>
-       <div className="lg:col-span-2">
-         <Skeleton className="h-[360px] w-full rounded-2xl" />
+    <div className="space-y-8 animate-pulse mt-8">
+      <Skeleton className="h-[160px] w-full rounded-2xl" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="lg:col-span-2 h-[400px] md:h-[500px]">
+           <Skeleton className="w-full h-full rounded-2xl" />
+        </div>
+         <div className="space-y-8">
+          <Skeleton className="h-[550px] w-full rounded-2xl" />
+        </div>
+         <div className="space-y-8">
+          <Skeleton className="h-[460px] w-full rounded-2xl" />
+         </div>
+         <div className="lg:col-span-2">
+           <Skeleton className="h-[360px] w-full rounded-2xl" />
+        </div>
       </div>
     </div>
 );
@@ -43,18 +47,6 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
         });
     }
 
-    // Add markers for check nodes
-    result.checkNodeResults.forEach(nodeResult => {
-      if (nodeResult.nodeInfo && nodeResult.nodeInfo.lat && nodeResult.nodeInfo.lon) {
-        markers.push({
-          latitude: nodeResult.nodeInfo.lat,
-          longitude: nodeResult.nodeInfo.lon,
-          color: 'hsl(var(--accent))',
-          label: `${nodeResult.nodeInfo.name}: ${nodeResult.latency}ms`,
-        });
-      }
-    });
-
     return markers;
   })() : [];
 
@@ -73,7 +65,16 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
   }
   
   if (!result) {
-    return (
+     if (state.error) {
+       return (
+        <Alert variant="destructive" className="mt-8">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{state.error}</AlertDescription>
+        </Alert>
+       )
+     }
+     return (
        <div className="text-center text-muted-foreground py-16">
         <p>Enter an IP address or domain to begin analysis.</p>
       </div>
@@ -82,6 +83,7 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
 
   return (
     <div className="space-y-8 animate-in fade-in-0 zoom-in-95 duration-500 mt-8">
+      {result.aiAnalysis && <AIAnalysisCard analysis={result.aiAnalysis} />}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="lg:col-span-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-primary/20 glass-card p-0">
           <MapDisplay markers={mapMarkers} />
