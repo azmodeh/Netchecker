@@ -29,16 +29,6 @@ export default function ResultsDisplay({ state }: { state: FormState }) {
       }
     }
     
-    // Add markers for check nodes
-    result.checkNodeResults.forEach(nodeResult => {
-      markers.push({
-        longitude: nodeResult.nodeInfo.lon,
-        latitude: nodeResult.nodeInfo.lat,
-        color: 'hsl(var(--accent))',
-        label: `${nodeResult.nodeInfo.name} (${nodeResult.latency}ms)`,
-      });
-    });
-
     return markers;
   })() : [];
 
