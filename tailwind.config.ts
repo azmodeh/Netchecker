@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -11,7 +12,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        headline: ['Space Grotesk', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
@@ -88,10 +89,21 @@ export default {
             height: '0',
           },
         },
+        'move-gradient': {
+          '0%, 100%': { transform: 'translate(0, 0)' },
+          '50%': { transform: 'translate(-25%, -25%) rotate(6deg)' },
+        },
+        'sparkle': {
+          '0%, 100%': { transform: 'scale(0) translateY(0)', opacity: '0' },
+          '20%': { opacity: '1' },
+          '80%': { transform: 'scale(1.5) translateY(-20px)', opacity: '0.5' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'move-gradient': 'move-gradient 25s ease-in-out infinite',
+        'sparkle': 'sparkle linear infinite'
       },
     },
   },
