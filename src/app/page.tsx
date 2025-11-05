@@ -1,42 +1,37 @@
 
 'use client';
 
-import { useActionState } from 'react';
-import { performGlobalCheck } from '@/lib/actions';
-import type { FormState } from '@/lib/types';
-
-import Background from '@/components/background';
-import LookupForm from '@/components/lookup-form';
-import ResultsDisplay from '@/components/results-display';
-import { LogoIcon } from '@/components/icons';
-
-const initialState: FormState = {};
-
 export default function Home() {
-  const [state, formAction] = useActionState(performGlobalCheck, initialState);
-
   return (
-    <>
-      <Background />
-      <main className="container mx-auto px-4 py-8 md:py-16 relative z-10">
-        <header className="text-center mb-12">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <LogoIcon className="w-12 h-12 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-headline font-bold tracking-tighter">
-              Global NetCheck Vista
-            </h1>
-          </div>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Enter a domain to perform a global network check and visualize the results.
-          </p>
-        </header>
-
-        <div className="max-w-2xl mx-auto mb-12">
-          <LookupForm formAction={formAction} />
+    <div className="relative h-screen">
+      {/* Background Pattern */}
+      <div className="absolute inset-0">
+        <div className="relative h-full w-full bg-slate-950 [&>div]:absolute [&>div]:inset-0 [&>div]:bg-[radial-gradient(circle_500px_at_50%_200px,#3e3e3e,transparent)]">
+          <div></div>
         </div>
-        
-        <ResultsDisplay key={state.timestamp} state={state} />
-      </main>
-    </>
+      </div>
+
+      {/* Hero Content */}
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-4">
+        <div className="max-w-3xl text-center">
+          <h1 className="mb-8 text-4xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">
+            Your Next Great{' '}
+            <span className="text-sky-400">Project</span>
+          </h1>
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-slate-300">
+            Build modern and beautiful websites with this collection of stunning
+            background patterns. Perfect for landing pages, apps, and dashboards.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <button className="rounded-lg bg-sky-400 px-6 py-3 font-medium text-slate-900 hover:bg-sky-300">
+              Get Started
+            </button>
+            <button className="rounded-lg border border-slate-700 bg-slate-800 px-6 py-3 font-medium text-white hover:bg-slate-700">
+              Learn More
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
