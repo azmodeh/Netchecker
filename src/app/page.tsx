@@ -42,7 +42,9 @@ export default function Home() {
       }
     }
 
-    fetchUserIpAndCheck();
+    if (!initialCheckDone) {
+        fetchUserIpAndCheck();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
