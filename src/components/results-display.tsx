@@ -12,17 +12,17 @@ import { Skeleton } from '@/components/ui/skeleton';
 const LoadingSkeleton = () => (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-pulse mt-8">
       <div className="lg:col-span-2 h-[400px] md:h-[500px]">
-         <Skeleton className="w-full h-full" />
+         <Skeleton className="w-full h-full rounded-2xl" />
       </div>
        <div className="space-y-8">
-        <Skeleton className="h-[300px] w-full" />
+        <Skeleton className="h-[430px] w-full rounded-2xl" />
       </div>
        <div className="space-y-8">
-        <Skeleton className="h-[200px] w-full" />
-        <Skeleton className="h-[300px] w-full" />
+        <Skeleton className="h-[200px] w-full rounded-2xl" />
+        <Skeleton className="h-[360px] w-full rounded-2xl" />
        </div>
        <div className="lg:col-span-2">
-         <Skeleton className="h-[360px] w-full" />
+         <Skeleton className="h-[360px] w-full rounded-2xl" />
       </div>
     </div>
 );
