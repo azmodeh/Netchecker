@@ -7,7 +7,6 @@ import type { CheckResult, DnsRecord, IpInfo, CheckNodeResult, FormState } from 
 
 async function getIpInfo(ip: string): Promise<IpInfo> {
   // In a real app, this would call an API like ipinfo.io
-  // This is a mock with 4-source cross-validation simulation
   await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
   if (ip === '127.0.0.1' || ip === '::1') {
       return {
@@ -25,7 +24,7 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
   }
 
   try {
-    // First attempt with ip-api.com which provides more details
+    // ip-api.com provides proxy/hosting info
     const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,countryCode,regionName,city,lat,lon,isp,org,as,mobile,proxy,hosting,query`);
     const data = await response.json();
 
@@ -47,7 +46,7 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
     console.error("ip-api.com failed, falling back to ipapi.co", e)
   }
 
-  // Fallback to ipapi.co
+  // Fallback to ipapi.co if the first one fails
   const response = await fetch(`https://ipapi.co/${ip}/json/`);
   const data = await response.json();
 
@@ -63,6 +62,10 @@ async function getIpInfo(ip: string): Promise<IpInfo> {
     countryCode: data.country_code,
     org: data.org,
     loc: `${data.latitude},${data.longitude}`,
+    // ipapi.co doesn't provide these details, so we default them.
+    proxy: false, 
+    hosting: false,
+    mobile: false
   };
 }
 
