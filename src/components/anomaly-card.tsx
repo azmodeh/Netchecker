@@ -7,9 +7,9 @@ export default function AnomalyCard({ summary }: { summary: AnomalySummary }) {
   const { isAnomaly, summary: summaryText, recommendation } = summary;
 
   return (
-    <Card className={`glass-card border-2 ${isAnomaly ? 'border-destructive/50' : 'border-primary/50'}`}>
+    <Card className={`liquid-glass border-2 ${isAnomaly ? 'border-destructive/50' : 'border-primary/50'}`}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-3 font-headline">
+        <CardTitle className="flex items-center gap-3 font-display">
           <Zap className="w-6 h-6" />
           AI Anomaly Detection
         </CardTitle>

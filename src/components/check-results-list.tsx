@@ -5,9 +5,9 @@ import type { CheckNodeResult } from "@/lib/types";
 
 export default function CheckResultsList({ results }: { results: CheckNodeResult[] }) {
   return (
-    <Card className="glass-card h-full">
+    <Card className="liquid-glass h-full">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-headline">
+        <CardTitle className="flex items-center gap-2 font-display">
           <Wifi />
           Global Check Nodes
         </CardTitle>

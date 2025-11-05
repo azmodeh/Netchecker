@@ -64,7 +64,7 @@ export default function MapDisplay({ markers }: Props) {
   return (
     <Map
       initialViewState={initialViewState}
-      style={{ width: '100%', height: '100%', borderRadius: '0.75rem' }}
+      style={{ width: '100%', height: '100%'}}
       mapStyle="mapbox://styles/mapbox/dark-v11"
       mapboxAccessToken={mapboxToken}
       scrollZoom={false}
@@ -88,9 +88,9 @@ export default function MapDisplay({ markers }: Props) {
           closeButton={false}
           offset={-40}
           anchor="bottom"
-          className="font-body z-20"
+          className="font-body z-20 !bg-transparent !shadow-none"
         >
-          <div className="text-sm">{popupInfo.label}</div>
+          <div className="bg-background/80 backdrop-blur-md text-foreground text-sm p-2 rounded-md border border-primary/20">{popupInfo.label}</div>
         </Popup>
       )}
     </Map>

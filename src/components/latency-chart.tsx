@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
@@ -19,9 +20,9 @@ export default function LatencyChart({ results }: { results: CheckNodeResult[] }
   }));
 
   return (
-    <Card className="glass-card h-full">
+    <Card className="liquid-glass h-full">
        <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-headline">
+        <CardTitle className="flex items-center gap-2 font-display">
           <TrendingUp />
           Latency Overview
         </CardTitle>
@@ -46,12 +47,12 @@ export default function LatencyChart({ results }: { results: CheckNodeResult[] }
             />
              <Tooltip
                 contentStyle={{
-                    backgroundColor: 'hsl(var(--card))',
+                    backgroundColor: 'hsl(var(--background))',
                     borderColor: 'hsl(var(--border))',
-                    color: 'hsl(var(--card-foreground))',
+                    color: 'hsl(var(--foreground))',
                     borderRadius: 'var(--radius)',
                 }}
-                cursor={{ fill: 'hsl(var(--accent) / 0.1)' }}
+                cursor={{ fill: 'hsl(var(--primary) / 0.1)' }}
              />
             <Bar dataKey="latency" fill={chartConfig.latency.color} radius={[4, 4, 0, 0]} />
           </BarChart>

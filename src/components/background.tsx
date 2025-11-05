@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -19,24 +20,17 @@ const Background = () => {
       left: `${Math.random() * 100}%`,
       width: `${size}px`,
       height: `${size}px`,
-      animationDelay: `${Math.random() * 10}s`,
-      animationDuration: `${Math.random() * 8 + 5}s`,
+      animationDelay: `${Math.random() * 3}s`,
+      animationDuration: `3s`,
     };
-    return <div key={i} className="absolute rounded-full bg-white/70 animate-sparkle" style={style} />;
+    return <div key={i} className="fixed rounded-full bg-primary animate-sparkle z-0" style={style} />;
   });
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen -z-10 overflow-hidden">
       <div className="absolute inset-0 bg-background" />
       <div
-        className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] animate-move-gradient"
-        style={{
-          background: `
-            radial-gradient(circle at 20% 20%, hsl(var(--primary) / 0.2), transparent 30%),
-            radial-gradient(circle at 80% 30%, hsl(var(--accent) / 0.2), transparent 30%),
-            radial-gradient(circle at 50% 80%, hsl(var(--primary) / 0.15), transparent 35%)
-          `,
-        }}
+        className="absolute inset-0 bg-[radial-gradient(circle_500px_at_50%_200px,#3e3e3e,transparent)]"
       />
       {sparkles}
     </div>

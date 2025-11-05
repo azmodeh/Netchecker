@@ -11,12 +11,9 @@ type InfoRowProps = {
 }
 
 const InfoRow: React.FC<InfoRowProps> = ({ icon, label, value }) => (
-  <div className="flex items-start gap-3 text-sm">
-    <div className="text-muted-foreground mt-0.5">{icon}</div>
-    <div className="flex-1">
-      <p className="font-medium text-foreground">{value || 'N/A'}</p>
-      <p className="text-xs text-muted-foreground">{label}</p>
-    </div>
+  <div className="info-card flex flex-col p-4 bg-card/80 border-primary/20 rounded-xl">
+    <div className="text-sm text-muted-foreground mb-1.5 flex items-center gap-2">{icon} {label}</div>
+    <div className="text-lg font-bold font-display text-primary">{value || 'N/A'}</div>
   </div>
 );
 
@@ -24,19 +21,21 @@ export default function IpInfoCard({ ipInfo, dnsRecords }: { ipInfo: IpInfo; dns
   return (
     <Card className="glass-card h-full">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-headline">
+        <CardTitle className="flex items-center gap-2 font-display">
           <Globe />
           IP & DNS Information
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <InfoRow icon={<Server className="w-4 h-4" />} label="IP Address" value={ipInfo.ip} />
-        <InfoRow icon={<MapPinIcon className="w-4 h-4" />} label="Location" value={`${ipInfo.city}, ${ipInfo.country}`} />
-        <InfoRow icon={<Building className="w-4 h-4" />} label="Organization" value={ipInfo.org} />
+        <div className="grid grid-cols-2 gap-4">
+          <InfoRow icon={<Server className="w-4 h-4" />} label="IP Address" value={ipInfo.ip} />
+          <InfoRow icon={<MapPinIcon className="w-4 h-4" />} label="Location" value={`${ipInfo.city}, ${ipInfo.country}`} />
+          <InfoRow icon={<Building className="w-4 h-4" />} label="Organization" value={ipInfo.org} />
+        </div>
         
         {dnsRecords.length > 0 && (
           <>
-            <Separator className="my-4" />
+            <Separator className="my-4 bg-primary/20" />
             <div className="space-y-3">
               <h4 className="flex items-center gap-3 text-sm font-medium text-foreground">
                 <Dna className="w-4 h-4 text-muted-foreground" />
